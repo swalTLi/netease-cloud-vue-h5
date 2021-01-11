@@ -40,6 +40,9 @@
         </div>
       </van-form>
     </form>
+    {{count}}
+    <br>
+    {{action}}
     <van-number-keyboard
       title="小恶🐟安全键盘"
       :show="show"
@@ -56,7 +59,7 @@
 
 <script>
 import loginPhone from '@/api/login'
-import { mapState } from 'vuex'
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   name: 'phoneComp',
   data () {
@@ -91,8 +94,14 @@ export default {
       return this.$store.state.count
     },
     ...mapState({
-      ldq: 'ldq'
-    })
+      ldq: 'ldq',
+      action: 'action'
+    }),
+    ...mapGetters([
+      'doneTodos',
+      'doneTodosCount',
+      'getTodoById'
+    ])
   },
   mounted () {
     // this.axios.get('http://www.lidaqing.plus:1901/banner').then(res => {
@@ -100,10 +109,46 @@ export default {
     // })
     // console.log(this.$store.commit('increment'))
     // console.log(this.$store.state.count)
-    console.log(this.ldq)
-    console.log(this.count)
+    // console.log(this.ldq)
+    // console.log(this.count)
+    // console.log(this.$store.getters.doneTodos)
+    // console.log(this.$store.getters.doneTodosCount)
+    // console.log(this.$store.getters.getTodoById(2))
+    // this.$store.commit({
+    //   type: 'increment',
+    //   amount: 1000
+    // })
+    // setInterval(() => {
+    //   this.$store.commit({
+    //     type: 'ddaddCount'
+    //   })
+    // }, 1000)
+    // console.log(this.$store.state)
+    // this.$store.dispatch('add')
+    // this.$store.dispatch({ type: 'increment', amount: 9 })
+    // this.add({ amount: 5 })
+    // this.incrementAsync({ amount: 30 })
+    // this.add()
+    this.actionA().then(res => {
+      // console.log(res)
+    })
+    this.actionB()
   },
   methods: {
+    ...mapActions({
+      add: 'add',
+      actionA: 'actionA',
+      actionB: 'actionB'
+    }),
+    ...mapActions([
+      'incrementAsync'
+    ]),
+    ...mapMutations({
+      addCount: 'addCount'
+    }),
+    ...mapMutations([
+      'addCount'
+    ]),
     checkInput (type) {
       // console.log(type)
       this.isInput = type
