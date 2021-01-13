@@ -94,11 +94,11 @@ export default {
           this.$router.push({ path: '/loginPage/' + type, query: { type: type } })
         },
         default: (type) => {
-          // this.$toast({
-          //   message: type + '接口暂未开放',
-          //   icon: 'https://www.easyicon.net/api/resizeApi.php?id=1284842&size=96'
-          // })
-          this.$router.push({ path: '/loginPage/' + type, query: { type: type } })
+          this.$toast({
+            message: type + '接口暂未开放',
+            icon: 'https://www.easyicon.net/api/resizeApi.php?id=1284842&size=96'
+          })
+          // this.$router.push({ path: '/loginPage/' + type, query: { type: type } })
         }
       }
     }

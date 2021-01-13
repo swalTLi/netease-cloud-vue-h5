@@ -108,7 +108,7 @@ export default {
             this.loginSuccess({ res: res })
             // console.log(this.UserInformation)
             // 前往首页
-            // this.$router.push({ path: '/login' })
+            this.$router.push({ path: '/Little_evil_fish_music' })
           }
         })
       }

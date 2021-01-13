@@ -3,13 +3,14 @@ import VueRouter from 'vue-router'
 import { login } from '@/router/login'
 import { redirect } from '@/router/redirect'
 import { err } from '@/router/err'
-
+import { main } from '@/router/main'
 Vue.use(VueRouter)
 
 const routes = [
   // 登录
   ...login,
-  // 主页
+  // 小恶鱼音乐
+  ...main,
   // 错误路由
   ...err,
   // 重定向到登录
