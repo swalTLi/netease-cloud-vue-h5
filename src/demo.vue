@@ -40,6 +40,9 @@
         </div>
       </van-form>
     </form>
+    {{count}}
+    <br>
+    {{action}}
     <van-number-keyboard
       title="小恶🐟安全键盘"
       :show="show"
@@ -56,9 +59,7 @@
 
 <script>
 import loginPhone from '@/api/login'
-import { createNamespacedHelpers } from 'vuex'
-const { mapState, mapGetters, mapMutations, mapActions } =
-  createNamespacedHelpers('loginVuex')
+import { mapState, mapGetters, mapMutations, mapActions } from 'vuex'
 export default {
   name: 'phoneComp',
   data () {
@@ -71,25 +72,89 @@ export default {
       isInput: 1
     }
   },
+  // // 通过计算属性 获取store的数据
+  // computed: mapState(
+  //   // {
+  //   // // 使用 箭头函数使代码简练
+  //   //   count: state => state.count,
+  //   //   // 功能同上 需要辅助函数mapState
+  //   //   countAlias: 'count',
+  //   //   // 为了能够使用 `this` 获取局部状态，必须使用常规函数
+  //   //   count2 (state) {
+  //   //     return state.count + 100
+  //   //   }
+  //   // }
+  //   [
+  //     'ldq'
+  //   ]
+  // ),
+  // 混合计算属性获取数据
   computed: {
-    ...mapState([
-      'isLogin',
-      'UserInformation'
-    ]),
-    ...mapGetters({
-
-    })
+    count (state) {
+      return this.$store.state.count
+    },
+    ...mapState({
+      ldq: 'ldq',
+      action: 'action'
+    }),
+    ...mapGetters([
+      'doneTodos',
+      'doneTodosCount',
+      'getTodoById'
+    ])
   },
   mounted () {
-    console.log(this.$store.state.loginVuex.isLogin)
+    // this.axios.get('http://www.lidaqing.plus:1901/banner').then(res => {
+    //   console.log(res)
+    // })
+    // console.log(this.$store.commit('increment'))
+    // console.log(this.$store.state.count)
+    // console.log(this.ldq)
+    // console.log(this.count)
+    // console.log(this.$store.getters.doneTodos)
+    // console.log(this.$store.getters.doneTodosCount)
+    // console.log(this.$store.getters.getTodoById(2))
+    // this.$store.commit({
+    //   type: 'increment',
+    //   amount: 1000
+    // })
+    // setInterval(() => {
+    //   this.$store.commit({
+    //     type: 'ddaddCount'
+    //   })
+    // }, 1000)
+    // console.log(this.$store.state)
+    // this.$store.dispatch('add')
+    // this.$store.dispatch({ type: 'increment', amount: 9 })
+    // this.add({ amount: 5 })
+    // this.incrementAsync({ amount: 30 })
+    // this.add()
+    this.actionA().then(res => {
+      // console.log(res)
+    })
+    this.actionB()
   },
   methods: {
-    ...mapMutations({
-
-    }),
     ...mapActions({
-      loginSuccess: 'loginSuccess'
+      add: 'add',
+      actionA: 'actionA',
+      actionB: 'actionB'
     }),
+    ...mapActions([
+      'incrementAsync'
+    ]),
+    ...mapMutations({
+      addCount: 'addCount'
+    }),
+    ...mapMutations([
+      'addCount'
+    ]),
+    checkInput (type) {
+      // console.log(type)
+      this.isInput = type
+      this.show = !!type
+      console.log(!!type)
+    },
     onSubmit (v) {
       // 验证手机号码
       if (!(/^1[34578]\d{9}$/.test(v.phone))) {
@@ -98,26 +163,19 @@ export default {
         return this.$toast.fail('手机号格式错误')
       } else {
         loginPhone(13898102230, 'ldq2586463185').then(res => {
-          // console.log(res)
+          console.log(res)
           if (res.data.code === 200) {
             this.$toast({
               message: '登录成功',
               icon: 'https://www.easyicon.net/api/resizeApi.php?id=1284842&size=96'
             })
-            // 登录成功 更改 vuex islogin登录状态 并把用户信息放到 vuex里面
-            this.loginSuccess({ res: res })
-            // console.log(this.UserInformation)
+            // 保存到vuex
+            // 保存到cookie
             // 前往首页
-            // this.$router.push({ path: '/login' })
+            this.$router.push({ path: '/login' })
           }
         })
       }
-    },
-    checkInput (type) {
-      // console.log(type)
-      this.isInput = type
-      this.show = !!type
-      console.log(!!type)
     },
     onInput (value) {
       if (value === '清空') {

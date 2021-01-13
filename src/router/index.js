@@ -9,6 +9,7 @@ Vue.use(VueRouter)
 const routes = [
   // 登录
   ...login,
+  // 主页
   // 错误路由
   ...err,
   // 重定向到登录
