@@ -6,25 +6,21 @@
 #### 软件架构
 软件架构说明
 
+#### 项目地址
+点击访问 [ 网易云模仿2-小鳄鱼音乐-自主设计界面-接口网易云的-vue-h5](http://www.lidaqing.plus:1011/)
 
 #### 安装教程
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  npm install 
+2.  vue ui 
 
 #### 使用说明
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1. 移动端使用
 
 #### 参与贡献
 
 1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
 
 
 #### 特技

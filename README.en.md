@@ -1,36 +1,64 @@
-# 网易云-vue-h5
+#Netease cloud-vue-h5
 
-#### Description
-网易云-vue-h5
 
-#### Software Architecture
+
+####Introduction
+
+Netease cloud-vue-h5
+
+
+
+####Software architecture
+
 Software architecture description
 
-#### Installation
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Instructions
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### Contribution
-
-1.  Fork the repository
-2.  Create Feat_xxx branch
-3.  Commit your code
-4.  Create Pull Request
 
 
-#### Gitee Feature
+####Project address
 
-1.  You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2.  Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3.  Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4.  The most valuable open source project [GVP](https://gitee.com/gvp)
-5.  The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6.  The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+Click to visit [Netease cloud imitation 2 - little crocodile Music - self designed interface - Interface Netease cloud's - vue-h5]（ http://www.lidaqing.plus :1011/)
+
+
+
+####Installation tutorial
+
+
+
+1. npm install
+
+2. vue ui
+
+
+
+####Instructions for use
+
+
+
+1. Use of mobile terminal
+
+
+
+####Participation and contribution
+
+
+
+1. Fork warehouse
+
+
+
+
+####Special effects
+
+
+
+1. Using Readme\_ XXX.md To support different languages, such as readme\_ en.md , Readme\_ zh.md
+
+2. Gitee official blog[ blog.gitee.com ] https://blog.gitee.com )
+
+You can[ https://gitee.com/explore ] https://gitee.com/explore ）This is the address to learn about excellent open source projects on gitee
+
+4. [GVP]( https://gitee.com/gvp ）Its full name is gitee's most valuable open source project, and it is an excellent open source project evaluated comprehensively
+
+5. Instruction manual provided by gitee[ https://gitee.com/help ] https://gitee.com/help )
+
+6. Gitee cover character is a column used to show the style of gitee members[ https://gitee.com/gitee-stars/ ] https://gitee.com/gitee-stars/ )
