@@ -4,13 +4,14 @@
   </div>
 </template>
 <style lang="less">
-*{
+* {
   margin: 0;
   padding: 0;
   font-family: 方正粗体;
 }
-.van-toast{
-  width: 100vw!important;
+
+.van-toast {
+  width: 100vw !important;
 }
 
 .fade-enter-active, .fade-leave-active {
@@ -19,5 +20,18 @@
 
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
+}
+
+*::-webkit-scrollbar {
+
+  display: none
+}
+
+.icon {
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+  overflow: hidden;
 }
 </style>

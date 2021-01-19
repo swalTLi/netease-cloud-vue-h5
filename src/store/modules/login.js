@@ -9,7 +9,6 @@ export const loginVuex = {
     UserSettings: {}
   }),
   getters: {
-
   },
   mutations: {
     // 登录成功

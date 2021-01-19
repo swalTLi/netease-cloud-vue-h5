@@ -9,7 +9,7 @@ Vue.use(VueRouter)
 const routes = [
   // 登录
   ...login,
-  // 小恶鱼音乐
+  // 小恶鱼音乐 用户页面
   ...main,
   // 错误路由
   ...err,

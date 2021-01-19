@@ -34,8 +34,11 @@
           />
         </transition>
         <div style="margin: 16px;">
-          <van-button color="linear-gradient(to right, seagreen, mediumseagreen)"
-                      round block type="info" native-type="submit">提交
+          <van-button
+            :loading="disabled"
+            loading-text="登录中..."
+            color="linear-gradient(to right, seagreen, mediumseagreen)"
+            :disabled='disabled'          round block type="info" native-type="submit">登录
           </van-button>
         </div>
       </van-form>
@@ -55,10 +58,10 @@
 </template>
 
 <script>
-import loginPhone from '@/api/login'
+// import axios from 'axios'
 import { createNamespacedHelpers } from 'vuex'
-const { mapState, mapGetters, mapMutations, mapActions } =
-  createNamespacedHelpers('loginVuex')
+import { api as API } from '@/api/api'
+const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('loginVuex')
 export default {
   name: 'phoneComp',
   data () {
@@ -68,7 +71,8 @@ export default {
       // 是否显示键盘
       show: true,
       // 当前选中那个输入框
-      isInput: 1
+      isInput: 1,
+      disabled: false
     }
   },
   computed: {
@@ -77,15 +81,16 @@ export default {
       'UserInformation'
     ]),
     ...mapGetters({
-
     })
   },
   mounted () {
     console.log(this.$store.state.loginVuex.isLogin)
+    if (this.$store.state.loginVuex.isLogin) {
+      this.loading()
+    }
   },
   methods: {
     ...mapMutations({
-
     }),
     ...mapActions({
       loginSuccess: 'loginSuccess'
@@ -97,21 +102,33 @@ export default {
         // this.md5_password = ''
         return this.$toast.fail('手机号格式错误')
       } else {
-        loginPhone(13898102230, 'ldq2586463185').then(res => {
+        API.login.loginPhone(13898102230, 'ldq2586463185').then(res => {
           // console.log(res)
           if (res.data.code === 200) {
-            this.$toast({
-              message: '登录成功',
-              icon: 'https://www.easyicon.net/api/resizeApi.php?id=1284842&size=96'
-            })
+            // window.localStorage.setItem('Authorization', res.data.token)
+            // axios.interceptors.request.use(config => {
+            //   config.headers.common.Authorization = res.data.token
+            //   return config
+            // })
             // 登录成功 更改 vuex islogin登录状态 并把用户信息放到 vuex里面
             this.loginSuccess({ res: res })
             // console.log(this.UserInformation)
-            // 前往首页
-            this.$router.push({ path: '/Little_evil_fish_music' })
+            this.loading()
           }
         })
       }
+    },
+    // 改变 按钮状态 延迟登录
+    loading () {
+      this.disabled = true
+      this.$toast({
+        message: '已经登录正在跳转',
+        icon: 'https://www.easyicon.net/api/resizeApi.php?id=1284842&size=96'
+      })
+      // 前往首页
+      setTimeout(() => {
+        this.$router.push({ path: '/Little_evil_fish_music' })
+      }, 2000)
     },
     checkInput (type) {
       // console.log(type)

@@ -23,5 +23,11 @@ export const main = [
     path: '/cloudVillage',
     name: 'Little_evil_fish_music',
     component: () => import(/* webpackChunkName: "about" */ '@/views/mainPages/cloudVillage')
+  },
+  //  搜索
+  {
+    path: '/search',
+    name: 'search',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/mainPages/search')
   }
 ]

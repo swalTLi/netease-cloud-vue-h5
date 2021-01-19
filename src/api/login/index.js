@@ -1,5 +1,14 @@
-import axios from 'axios'
-import URL from '../api'
-export default function loginPhone (phone, md5PWD) {
-  return axios.get(URL + 'login/cellphone?phone=' + phone + '&password=' + md5PWD)
+export default {
+  // 手机号登录
+  loginPhone: (phone, md5PWD) => {
+    // eslint-disable-next-line no-undef
+    return axios({
+      method: 'post',
+      url: 'login/cellphone',
+      data: {
+        phone: phone,
+        password: md5PWD
+      }
+    })
+  }
 }
