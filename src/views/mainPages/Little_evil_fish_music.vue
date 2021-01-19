@@ -11,7 +11,7 @@
               <van-swipe-item v-for="(item, index) in banners"
                               :key="index"
                               :show-indicators=false>
-                <img class="img" v-lazy="item.pic" :src="item.pic"/>
+                <img class="img" v-lazy="item.imageUrl" :src="item.imageUrl"/>
               </van-swipe-item>
             </van-swipe>
           </transition>
@@ -25,161 +25,11 @@
           </div>
         </transition>
         <div v-for="(item,index) in blocks" :key="index">
-          <div class="home-page-recommend-song-list" v-if="item.blockCode ==='HOMEPAGE_BLOCK_PLAYLIST_RCMD'">
-            <transition name="fade">
-              <div class="title" v-if="transition">
-                <div class="left" v-if="item.uiElement">
-            <span>
-              {{ item.uiElement.subTitle.title }}
-            </span>
-                </div>
-                <div class="right" v-if="item.uiElement">
-                  <van-button
-                    size="mini"
-                    round
-                    @click="linkTo(item.uiElement.button.action)"
-                  >
-                <span>
-              {{ item.uiElement.button.text }}<van-icon name="arrow"/></span>
-                  </van-button>
-                </div>
-              </div>
-            </transition>
-            <transition name="fade">
-              <div class="main-box" v-if="transition">
-                <div class="for" v-for="(item,index) in item.creatives" :key="index">
-                  <font size="1" class="play-number">
-                    {{ item.resources[0].resourceExtInfo.playCount }}
-                  </font>
-                  <img :src="item.uiElement.image.imageUrl" alt="">
-                  <div class="playlist-name">
-                    <font size="1">{{ item.uiElement.mainTitle.title }}</font>
-                  </div>
-                </div>
-              </div>
-            </transition>
-          </div>
-          <div class="home-page-personal-tailor" v-if="item.blockCode ==='HOMEPAGE_BLOCK_STYLE_RCMD'">
-            <font size="1" color="gray" style="margin-left: 3%;">
-              私人定制
-            </font>
-            <div class="title" v-if="transition">
-              <div class="left" v-if="item.uiElement">
-              <span>
-                 {{ item.uiElement.subTitle.title }}
-              </span>
-              </div>
-              <div class="right" v-if="item.uiElement">
-                <van-button
-                  size="mini"
-                  round
-                  @click="linkTo(item.uiElement.button.action)"
-                >
-                <span>
-              {{ item.uiElement.button.text }}<van-icon name="arrow"/></span>
-                </van-button>
-              </div>
-            </div>
-            <div class="main-box" v-if="transition">
-              <div class="for" v-for="(box,index) in recommendedSongList.creatives" :key="index">
-                <font size="1" class="play-number">
-                  {{ box.resources[0].resourceExtInfo.playCount }}
-                </font>
-                <img :src="box.uiElement.image.imageUrl" alt="">
-                <div class="playlist-name">
-                  <font size="1">{{ box.uiElement.mainTitle.title }}</font>
-                </div>
-              </div>
-            </div>
-          </div>
+          <!--        推荐歌单-->
+          <HOMEPAGE_BLOCK_PLAYLIST_RCMD :data="item" v-if="item.blockCode ==='HOMEPAGE_BLOCK_PLAYLIST_RCMD'"/>
+          <!--         私人定制-->
+          <HOMEPAGE_BLOCK_STYLE_RCMD :data="item" v-if="item.blockCode ==='HOMEPAGE_BLOCK_STYLE_RCMD'"/>
         </div>
-<!--        <div class="banner">-->
-<!--          <transition name="fade">-->
-<!--            <van-swipe :autoplay="3000" v-if="transition">-->
-<!--              <van-swipe-item v-for="(item, index) in banners"-->
-<!--                              :key="index"-->
-<!--                              :show-indicators=false>-->
-<!--                <img class="img" v-lazy="item.pic" :src="item.pic"/>-->
-<!--              </van-swipe-item>-->
-<!--            </van-swipe>-->
-<!--          </transition>-->
-<!--        </div>-->
-<!--        <transition name="fade">-->
-<!--          <div class="home-page-icon" v-if="transition">-->
-<!--            <div class="for" v-for="(item,index) in homePageIcon" :key="index">-->
-<!--              <img :src="item.iconUrl" alt="">-->
-<!--              <div class="name">{{ item.name }}</div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </transition>-->
-
-<!--        <div class="home-page-recommend-song-list">-->
-<!--          <transition name="fade">-->
-<!--            <div class="title" v-if="transition">-->
-<!--              <div class="left" v-if="recommendedSongList.uiElement">-->
-<!--            <span>-->
-<!--              {{ recommendedSongList.uiElement.subTitle.title }}-->
-<!--            </span>-->
-<!--              </div>-->
-<!--              <div class="right" v-if="recommendedSongList.uiElement">-->
-<!--                <van-button-->
-<!--                  size="mini"-->
-<!--                  round-->
-<!--                  @click="linkTo(recommendedSongList.uiElement.button.action)"-->
-<!--                >-->
-<!--                <span>-->
-<!--              {{ recommendedSongList.uiElement.button.text }}<van-icon name="arrow"/></span>-->
-<!--                </van-button>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </transition>-->
-<!--          <transition name="fade">-->
-<!--            <div class="main-box" v-if="transition">-->
-<!--              <div class="for" v-for="(item,index) in recommendedSongList.creatives" :key="index">-->
-<!--                <font size="1" class="play-number">-->
-<!--                  {{ item.resources[0].resourceExtInfo.playCount }}-->
-<!--                </font>-->
-<!--                <img :src="item.uiElement.image.imageUrl" alt="">-->
-<!--                <div class="playlist-name">-->
-<!--                  <font size="1">{{ item.uiElement.mainTitle.title }}</font>-->
-<!--                </div>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </transition>-->
-<!--        </div>-->
-<!--        <div class="home-page-personal-tailor">-->
-<!--          <font size="1" color="gray" style="margin-left: 3%;">-->
-<!--            私人定制-->
-<!--          </font>-->
-<!--          <div class="title" v-if="transition">-->
-<!--            <div class="left" v-if="recommendedSongList.uiElement">-->
-<!--              <span>-->
-<!--                 {{ recommendedSongList.uiElement.subTitle.title }}-->
-<!--              </span>-->
-<!--            </div>-->
-<!--            <div class="right" v-if="recommendedSongList.uiElement">-->
-<!--              <van-button-->
-<!--                size="mini"-->
-<!--                round-->
-<!--                @click="linkTo(recommendedSongList.uiElement.button.action)"-->
-<!--              >-->
-<!--                <span>-->
-<!--              {{ recommendedSongList.uiElement.button.text }}<van-icon name="arrow"/></span>-->
-<!--              </van-button>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="main-box" v-if="transition">-->
-<!--            <div class="for" v-for="(item,index) in recommendedSongList.creatives" :key="index">-->
-<!--              <font size="1" class="play-number">-->
-<!--                {{ item.resources[0].resourceExtInfo.playCount }}-->
-<!--              </font>-->
-<!--              <img :src="item.uiElement.image.imageUrl" alt="">-->
-<!--              <div class="playlist-name">-->
-<!--                <font size="1">{{ item.uiElement.mainTitle.title }}</font>-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
-<!--        </div>-->
       </div>
     </div>
   </transition>
@@ -190,6 +40,8 @@ import { Lazyload } from 'vant'
 import NavBar from '@/components/Navbar'
 import { api as API } from '@/api/api'
 import { localStorage } from '@/common/localStorage'
+import HOMEPAGE_BLOCK_STYLE_RCMD from '@/components/find/HOMEPAGE_BLOCK_STYLE_RCMD'
+import HOMEPAGE_BLOCK_PLAYLIST_RCMD from '@/components/find/HOMEPAGE_BLOCK_PLAYLIST_RCMD'
 
 Vue.use(Lazyload)
 export default {
@@ -211,7 +63,7 @@ export default {
     })
   },
   mounted () {
-    // await this.findBanners()
+    this.findBanners()
     this.findHomepageData()
     this.findHomePageIcon()
   },
@@ -254,14 +106,19 @@ export default {
         // this.homePageData = localStorage('getItem', 'homePageData')
         this.$set(this, 'homePageData', localStorage('getItem', 'homePageData'))
       }
+      var a = 0
       const time = setInterval(() => {
+        a++
+        if (a > 1000 * 60) {
+          clearInterval(time)
+        }
         try {
-          if (this.homePageData.blocks[0]) {
+          if (this.homePageData.blocks) {
             this.$set(this, 'blocks', this.homePageData.blocks)
             console.log('find', this.homePageData.blocks)
             // 详细的 banner 图
             // this.banners = this.homePageData.blocks[0].extInfo.banners
-            this.$set(this, 'banners', this.homePageData.blocks[0].extInfo.banners)
+            // this.$set(this, 'banners', this.homePageData.blocks[0].extInfo.banners)
             // 推荐歌单
             this.$set(this, 'recommendedSongList', this.homePageData.blocks[1])
             // 欧美流行歌曲精选
@@ -271,25 +128,29 @@ export default {
         } catch (e) {
           console.log('data is loading')
         }
-      }, 100)
+      }, 1)
     },
     linkTo () {
     }
   },
   components: {
-    NavBar
+    NavBar,
+    HOMEPAGE_BLOCK_STYLE_RCMD,
+    HOMEPAGE_BLOCK_PLAYLIST_RCMD
   }
 }
 </script>
-<style scoped lang="less">
+<style lang="less">
 #main {
   width: 100vw;
   height: 100vh;
   background: linear-gradient(#DEE4E6, white);
+
   .NavBar {
     height: 5%;
     //background-color: red;
   }
+
   .page {
     padding-top: 1vh;
     //margin-left: 1vw;
@@ -298,6 +159,7 @@ export default {
     background: seagreen;
     margin: auto;
     overflow: scroll;
+
     .banner {
       width: 100%;
       height: 20%;
@@ -319,6 +181,7 @@ export default {
         }
       }
     }
+
     .home-page-icon {
       z-index: 999;
       width: 100%;
@@ -343,6 +206,7 @@ export default {
         }
       }
     }
+
     .home-page-recommend-song-list, .home-page-personal-tailor {
       border-bottom: 0.1px solid #bbbbbb;
       padding-bottom: 4%;
@@ -380,17 +244,18 @@ export default {
       .main-box {
         margin-top: 3%;
         width: 100%;
-        //height: 80%;
+        //height: 100%;
         //background: sienna;
         display: flex;
         justify-content: space-between;
         overflow-y: scroll;
+        //display: -webkit-box;
+        //overflow-x: -moz-scrollbars-none;
         .for {
           display: flex;
           flex-wrap: wrap;
           //align-items: center;
           margin: 0 1%;
-          width: 200px;
           //height: 100%;
           position: relative;
           //background: #a0522d;
@@ -420,6 +285,7 @@ export default {
         }
 
         .playlist-name {
+          overflow: hidden;
           line-height: 0.9;
 
           span {
@@ -428,14 +294,87 @@ export default {
         }
       }
     }
-    .home-page-personal-tailor{
 
+    .home-page-personal-tailor {
+      .main-box {
+        display: flex;
+        //background: silver;
+
+        .for {
+          //background: sienna;
+
+          .for-for {
+            align-content: center;
+            display: flex;
+            //background: gray;
+            height: 9vh;
+            justify-content: space-between;
+            align-items: center;
+
+            img {
+              width: 15vw;
+              height: 15vw;
+            }
+
+            .img {
+              width: 15vw;
+              height: 15vw;
+              display: flex;
+              justify-content: center;
+              align-items: center;
+
+              .icon {
+                position: absolute;
+                font-size: 8vw;
+              }
+            }
+
+            .box:nth-child(2), .box:first-child {
+              border-bottom: 0.01px solid silver;
+            }
+
+            .box {
+              margin: 0 2.5vw;
+              width: 65vw;
+              height: 15vw;
+              display: flex;
+              flex-wrap: wrap;
+              align-items: center;
+
+              .top {
+                width: 100%;
+                //height: 80%;
+                //background: aqua;
+                display: flex;
+                flex-wrap: wrap;
+                align-items: center;
+                justify-content: start;
+
+                span:nth-child(2) {
+                  margin-left: 2vw;
+                  color: #828282;
+                  font-size: 0.1rem;
+                }
+              }
+
+              .bottom {
+                width: 100%;
+                //height: 20%;
+                //background: aquamarine;
+                font-size: 0.1rem;
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
+
 .fade-enter-active, .fade-leave-active {
   transition: opacity .5s;
 }
+
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }

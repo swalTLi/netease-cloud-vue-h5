@@ -17,8 +17,17 @@ Vue.use(Vant)
 // 取消提示
 Vue.config.productionTip = false
 
+// const errorHandler = (error, vm) => {
+//   console.error('抛出全局异常')
+//   console.error(vm)
+//   console.error(error)
+// }
+// Vue.config.errorHandler = errorHandler
+// Vue.prototype.$throw = (error) => errorHandler(error, this)
+
 new Vue({
   router,
   store,
+  history,
   render: h => h(App)
 }).$mount('#app')
