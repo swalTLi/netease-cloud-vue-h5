@@ -29,6 +29,8 @@
           <HOMEPAGE_BLOCK_PLAYLIST_RCMD :data="item" v-if="item.blockCode ==='HOMEPAGE_BLOCK_PLAYLIST_RCMD'"/>
           <!--         私人定制-->
           <HOMEPAGE_BLOCK_STYLE_RCMD :data="item" v-if="item.blockCode ==='HOMEPAGE_BLOCK_STYLE_RCMD'"/>
+          <!--         精彩云音乐视频-->
+          <HOMEPAGE_MUSIC_MLOG :data="item" v-if="item.blockCode ==='HOMEPAGE_MUSIC_MLOG'"/>
         </div>
       </div>
     </div>
@@ -42,6 +44,7 @@ import { api as API } from '@/api/api'
 import { localStorage } from '@/common/localStorage'
 import HOMEPAGE_BLOCK_STYLE_RCMD from '@/components/find/HOMEPAGE_BLOCK_STYLE_RCMD'
 import HOMEPAGE_BLOCK_PLAYLIST_RCMD from '@/components/find/HOMEPAGE_BLOCK_PLAYLIST_RCMD'
+import HOMEPAGE_MUSIC_MLOG from '@/components/find/HOMEPAGE_MUSIC_MLOG'
 
 Vue.use(Lazyload)
 export default {
@@ -56,6 +59,12 @@ export default {
       personalTailor: '', // 私人定制
       transition: false
     }
+  },
+  components: {
+    NavBar,
+    HOMEPAGE_BLOCK_STYLE_RCMD,
+    HOMEPAGE_BLOCK_PLAYLIST_RCMD,
+    HOMEPAGE_MUSIC_MLOG
   },
   created () {
     setTimeout(() => {
@@ -132,11 +141,6 @@ export default {
     },
     linkTo () {
     }
-  },
-  components: {
-    NavBar,
-    HOMEPAGE_BLOCK_STYLE_RCMD,
-    HOMEPAGE_BLOCK_PLAYLIST_RCMD
   }
 }
 </script>
@@ -207,7 +211,7 @@ export default {
       }
     }
 
-    .home-page-recommend-song-list, .home-page-personal-tailor {
+    .home-page-recommend-song-list, .home-page-personal-tailor, .home-page-music-mlog {
       border-bottom: 0.1px solid #bbbbbb;
       padding-bottom: 4%;
       border-radius: 0 0 7px 7px;
@@ -275,13 +279,16 @@ export default {
         }
 
         .play-number {
-          //display: none;
-          display: block;
           position: absolute;
           background: rgba(255, 255, 255, 0.7);
           border-radius: 5px 0px 5px 0px;
           padding: 0 5px;
+          display: flex;
+          align-items: center;
 
+          svg {
+            color: gray;
+          }
         }
 
         .playlist-name {
