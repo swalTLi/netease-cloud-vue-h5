@@ -66,7 +66,7 @@ export default {
     }
   },
   mounted () {
-    console.log('home-page-music-mlog', this.data)
+    console.log(this.data.blockCode, this.data)
   },
   methods: {},
   props: ['data']
@@ -81,8 +81,8 @@ export default {
 .bofang {
   position: absolute;
   font-size: 2rem !important;
-  bottom: 13vw;
-  right: 3vw;
+  bottom: 8vw;
+  right: 5vw;
 }
 .main-box {
   .my-swipe {

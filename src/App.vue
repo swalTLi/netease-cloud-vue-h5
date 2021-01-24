@@ -1,15 +1,25 @@
 <template>
   <div id="app">
     <router-view/>
+    <div class="TabBar">
+      <TabBar/>
+    </div>
   </div>
 </template>
+<script>
+
+import TabBar from './components/TabBar/index.vue'
+export default {
+  name: 'APP',
+  components: { TabBar }
+}
+</script>
 <style lang="less">
 * {
   margin: 0;
   padding: 0;
   font-family: 方正粗体;
 }
-
 .van-toast {
   width: 100vw !important;
 }
@@ -33,5 +43,10 @@
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
+}
+.TabBar{
+  width: 100vw;
+  height: 6%;
+  background: sienna;
 }
 </style>

@@ -12,12 +12,6 @@ export const main = [
     name: 'video',
     component: () => import(/* webpackChunkName: "about" */ '@/views/mainPages/video')
   },
-  // 我的
-  {
-    path: '/my',
-    name: 'Little_evil_fish_music',
-    component: () => import(/* webpackChunkName: "about" */ '@/views/mainPages/my')
-  },
   // 云村
   {
     path: '/cloudVillage',
@@ -29,5 +23,11 @@ export const main = [
     path: '/search',
     name: 'search',
     component: () => import(/* webpackChunkName: "about" */ '@/views/mainPages/search')
+  },
+  // 我的
+  {
+    path: '/mine',
+    name: 'Little_evil_fish_music',
+    component: () => import(/* webpackChunkName: "about" */ '@/views/mainPages/mine')
   }
 ]

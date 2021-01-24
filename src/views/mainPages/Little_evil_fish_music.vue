@@ -2,36 +2,58 @@
   <transition name="fade">
     <div id="main" v-if="transition">
       <div class="NavBar">
-        <NavBar></NavBar>
+        <NavBar/>
       </div>
       <div class="page">
         <div class="banner">
           <transition name="fade">
             <van-swipe :autoplay="3000" v-if="transition">
-              <van-swipe-item v-for="(item, index) in banners"
-                              :key="index"
-                              :show-indicators=false>
-                <img class="img" v-lazy="item.imageUrl" :src="item.imageUrl"/>
+              <van-swipe-item
+                v-for="(item, index) in banners"
+                :key="index"
+                :show-indicators="false"
+              >
+                <img alt="" class="img" v-lazy="item.imageUrl" :src="item.imageUrl"/>
               </van-swipe-item>
             </van-swipe>
           </transition>
         </div>
         <transition name="fade">
           <div class="home-page-icon" v-if="transition">
-            <div class="for" v-for="(item,index) in homePageIcon" :key="index">
-              <img :src="item.iconUrl" alt="">
+            <div class="for" v-for="(item, index) in homePageIcon" :key="index">
+              <img :src="item.iconUrl" alt=""/>
               <div class="name">{{ item.name }}</div>
             </div>
           </div>
         </transition>
-        <div v-for="(item,index) in blocks" :key="index">
+        <div v-for="(item, index) in blocks" :key="index">
           <!--        推荐歌单-->
-          <HOMEPAGE_BLOCK_PLAYLIST_RCMD :data="item" v-if="item.blockCode ==='HOMEPAGE_BLOCK_PLAYLIST_RCMD'"/>
+          <HOMEPAGE_BLOCK_PLAYLIST_RCMD
+            :data="item"
+            v-if="rule[item.blockCode]"
+          />
           <!--         私人定制-->
-          <HOMEPAGE_BLOCK_STYLE_RCMD :data="item" v-if="item.blockCode ==='HOMEPAGE_BLOCK_STYLE_RCMD'"/>
-          <!--         精彩云音乐视频-->
-          <HOMEPAGE_MUSIC_MLOG :data="item" v-if="item.blockCode ==='HOMEPAGE_MUSIC_MLOG'"/>
+          <HOMEPAGE_BLOCK_STYLE_RCMD
+            :data="item"
+            v-if="item.blockCode === 'HOMEPAGE_BLOCK_STYLE_RCMD'"
+          />
+          <!--         精彩音乐视频-->
+          <HOMEPAGE_MUSIC_MLOG
+            :data="item"
+            v-if="item.blockCode === 'HOMEPAGE_MUSIC_MLOG'"
+          />
+          <!--         音乐日历-->
+          <HOMEPAGE_MUSIC_CALENDAR
+            :data="item"
+            v-if="item.blockCode === 'HOMEPAGE_MUSIC_CALENDAR'"
+          />
+          <!--          专属场景歌单-->
+          <!--          新歌-->
+          <!--          专属场景歌单-->
+          <!--          专属场景歌单-->
+          <!--          专属场景歌单-->
         </div>
+        <more></more>
       </div>
     </div>
   </transition>
@@ -45,7 +67,9 @@ import { localStorage } from '@/common/localStorage'
 import HOMEPAGE_BLOCK_STYLE_RCMD from '@/components/find/HOMEPAGE_BLOCK_STYLE_RCMD'
 import HOMEPAGE_BLOCK_PLAYLIST_RCMD from '@/components/find/HOMEPAGE_BLOCK_PLAYLIST_RCMD'
 import HOMEPAGE_MUSIC_MLOG from '@/components/find/HOMEPAGE_MUSIC_MLOG'
-
+import HOMEPAGE_MUSIC_CALENDAR from '@/components/find/HOMEPAGE_MUSIC_CALENDAR'
+import more from '../../components/find/more'
+import { ruleFindPageUiElement } from '@/common/rules'
 Vue.use(Lazyload)
 export default {
   name: 'Little_evil_fish_music',
@@ -57,14 +81,18 @@ export default {
       homePageData: '', // 首页发现数据
       recommendedSongList: '', // 推荐歌单
       personalTailor: '', // 私人定制
-      transition: false
+      transition: false,
+      rule: ruleFindPageUiElement
     }
   },
   components: {
     NavBar,
     HOMEPAGE_BLOCK_STYLE_RCMD,
     HOMEPAGE_BLOCK_PLAYLIST_RCMD,
-    HOMEPAGE_MUSIC_MLOG
+    HOMEPAGE_MUSIC_MLOG,
+    HOMEPAGE_MUSIC_CALENDAR,
+    more
+
   },
   created () {
     setTimeout(() => {
@@ -81,7 +109,7 @@ export default {
     findBanners () {
       // 优先加载缓存
       if (!localStorage('getItem', 'banner')) {
-        API.find.findBanners().then(res => {
+        API.find.findBanners().then((res) => {
           this.banners = res.data.banners
           localStorage('setItem', 'banner', res.data.banners, 10000 * 60 * 10)
         })
@@ -93,10 +121,15 @@ export default {
     //  首页导航图表按钮数据
     findHomePageIcon () {
       if (!localStorage('getItem', 'homePageIcon')) {
-        API.find.findHomePageIcon().then(res => {
+        API.find.findHomePageIcon().then((res) => {
           // console.log(res.data.data)
           this.homePageIcon = res.data.data
-          localStorage('setItem', 'homePageIcon', res.data.data, 10000 * 60 * 10)
+          localStorage(
+            'setItem',
+            'homePageIcon',
+            res.data.data,
+            10000 * 60 * 10
+          )
         })
       } else {
         this.homePageIcon = localStorage('getItem', 'homePageIcon')
@@ -106,14 +139,23 @@ export default {
     // 首页发现数据
     findHomepageData () {
       if (!localStorage('getItem', 'homePageData')) {
-        API.find.findHomepageData().then(res => {
+        API.find.findHomepageData().then((res) => {
           // this.homePageData = res.data.data
           this.$set(this, 'homePageData', res.data.data)
-          localStorage('setItem', 'homePageData', res.data.data, 10000 * 60 * 10)
+          localStorage(
+            'setItem',
+            'homePageData',
+            res.data.data,
+            10000 * 60 * 10
+          )
         })
       } else {
         // this.homePageData = localStorage('getItem', 'homePageData')
-        this.$set(this, 'homePageData', localStorage('getItem', 'homePageData'))
+        this.$set(
+          this,
+          'homePageData',
+          localStorage('getItem', 'homePageData')
+        )
       }
       var a = 0
       const time = setInterval(() => {
@@ -124,7 +166,7 @@ export default {
         try {
           if (this.homePageData.blocks) {
             this.$set(this, 'blocks', this.homePageData.blocks)
-            console.log('find', this.homePageData.blocks)
+            // console.log('find', this.homePageData.blocks)
             // 详细的 banner 图
             // this.banners = this.homePageData.blocks[0].extInfo.banners
             // this.$set(this, 'banners', this.homePageData.blocks[0].extInfo.banners)
@@ -148,7 +190,7 @@ export default {
 #main {
   width: 100vw;
   height: 100vh;
-  background: linear-gradient(#DEE4E6, white);
+  background: linear-gradient(#dee4e6, white);
 
   .NavBar {
     height: 5%;
@@ -160,7 +202,7 @@ export default {
     //margin-left: 1vw;
     //margin-right: 1vw;
     height: 88%;
-    background: seagreen;
+    //    background: seagreen;
     margin: auto;
     overflow: scroll;
 
@@ -211,10 +253,13 @@ export default {
       }
     }
 
-    .home-page-recommend-song-list, .home-page-personal-tailor, .home-page-music-mlog {
+    .home-page-recommend-song-list,
+    .home-page-personal-tailor,
+    .home-page-music-mlog,
+    .home-page-music-calendar {
       border-bottom: 0.1px solid #bbbbbb;
       padding-bottom: 4%;
-      border-radius: 0 0 7px 7px;
+      //border-radius: 0 0 7px 7px;
       margin-top: 3%;
       width: 100%;
       //height: 20%;
@@ -336,7 +381,8 @@ export default {
               }
             }
 
-            .box:nth-child(2), .box:first-child {
+            .box:nth-child(2),
+            .box:first-child {
               border-bottom: 0.01px solid silver;
             }
 
@@ -376,10 +422,12 @@ export default {
       }
     }
   }
+
 }
 
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
 
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {

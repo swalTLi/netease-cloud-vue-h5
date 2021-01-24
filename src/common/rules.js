@@ -1,0 +1,8 @@
+// 组件控制
+
+export const ruleFindPageUiElement = {
+  HOMEPAGE_BLOCK_PLAYLIST_RCMD: true,
+  HOMEPAGE_BLOCK_OFFICIAL_PLAYLIST: true,
+  HOMEPAGE_VOICELIST_RCMD: true,
+  HOMEPAGE_BLOCK_VIDEO_PLAYLIST: true
+}

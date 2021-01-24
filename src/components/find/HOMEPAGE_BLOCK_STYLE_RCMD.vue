@@ -66,7 +66,7 @@ export default {
     }
   },
   mounted () {
-    console.log(1, this.data)
+    console.log(this.data.blockCode, this.data)
   },
   methods: {},
   props: ['data']
