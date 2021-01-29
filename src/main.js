@@ -25,6 +25,10 @@ Vue.config.productionTip = false
 // Vue.config.errorHandler = errorHandler
 // Vue.prototype.$throw = (error) => errorHandler(error, this)
 
+/**
+ * 全局登录钩子
+ */
+
 new Vue({
   router,
   store,

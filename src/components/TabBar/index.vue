@@ -1,41 +1,38 @@
 <template>
-  <div>
-
-    <van-tabbar v-model="active"  active-color="mediumseagreen">
-      <van-tabbar-item replace to="/Little_evil_fish_music">
-        <span>发现</span>
-        <template #icon="props">
-          <transition name="fade">
-            <img v-if="true" :src="!props.active ? findIcon.active : findIcon.inactive" alt=""/>
-          </transition>
-        </template>
-      </van-tabbar-item>
-      <van-tabbar-item replace to="/search">
-        <span>歌曲搜索</span>
-        <template #icon="props">
-          <transition name="fade">
-            <img :src="!props.active ? searchIcon.active : searchIcon.inactive" alt=""/>
-          </transition>
-        </template>
-      </van-tabbar-item>
-      <van-tabbar-item replace to="/search">
-        <span>刷视频</span>
-        <template #icon="props">
-          <transition name="fade">
-            <img :src="!props.active ? video.active : video.inactive" alt=""/>
-          </transition>
-        </template>
-      </van-tabbar-item>
-      <van-tabbar-item replace to="/mine">
-        <span>我的</span>
-        <template #icon="props">
-          <transition name="fade">
-            <img :src="!props.active ? mine.active : mine.inactive" alt=""/>
-          </transition>
-        </template>
-      </van-tabbar-item>
-    </van-tabbar>
-  </div>
+  <van-tabbar v-model="active" active-color="mediumseagreen">
+    <van-tabbar-item replace :to="path+'/find'">
+      <span>发现</span>
+      <template #icon="props">
+        <transition name="fade">
+          <img v-if="true" :src="!props.active ? findIcon.active : findIcon.inactive" alt=""/>
+        </transition>
+      </template>
+    </van-tabbar-item>
+    <van-tabbar-item replace :to="path+'/search'">
+      <span>歌曲搜索</span>
+      <template #icon="props">
+        <transition name="fade">
+          <img :src="!props.active ? searchIcon.active : searchIcon.inactive" alt=""/>
+        </transition>
+      </template>
+    </van-tabbar-item>
+    <van-tabbar-item replace :to="path+'/video'">
+      <span>刷视频</span>
+      <template #icon="props">
+        <transition name="fade">
+          <img :src="!props.active ? video.active : video.inactive" alt=""/>
+        </transition>
+      </template>
+    </van-tabbar-item>
+    <van-tabbar-item replace :to="path+'/mine'">
+      <span>我的</span>
+      <template #icon="props">
+        <transition name="fade">
+          <img :src="!props.active ? mine.active : mine.inactive" alt=""/>
+        </transition>
+      </template>
+    </van-tabbar-item>
+  </van-tabbar>
 </template>
 
 <script>
@@ -49,6 +46,7 @@ export default {
   name: 'index',
   data () {
     return {
+      path: '/Little_evil_fish_music',
       active: 0,
       findIcon: {
         active: find,
@@ -65,12 +63,28 @@ export default {
       video: {
         active: video,
         inactive: Active
+      },
+
+      route: {
+        find: 0,
+        search: 1,
+        video: 2,
+        mine: 3
       }
+    }
+  },
+  mounted () {
+    this.active = this.route[this.$route.fullPath.split('/')[2]]
+  },
+  watch: {
+    // 改变激活状态
+    '$route.fullPath' (newV, oldV) {
+      this.active = this.route[newV.split('/')[2]]
     }
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="less">
 
 </style>

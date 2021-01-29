@@ -17,6 +17,7 @@
   </div>
 </template>
 <script>
+// 组件
 import phoneComp from '@/components/login/phoneComp'
 
 export default {

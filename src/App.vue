@@ -1,17 +1,14 @@
 <template>
   <div id="app">
     <router-view/>
-    <div class="TabBar">
-      <TabBar/>
-    </div>
   </div>
 </template>
 <script>
 
-import TabBar from './components/TabBar/index.vue'
+// import TabBar from '@/components/TabBar/index.vue'
 export default {
-  name: 'APP',
-  components: { TabBar }
+  name: 'APP'
+  // components: { TabBar }
 }
 </script>
 <style lang="less">
@@ -43,10 +40,5 @@ export default {
   vertical-align: -0.15em;
   fill: currentColor;
   overflow: hidden;
-}
-.TabBar{
-  width: 100vw;
-  height: 6%;
-  background: sienna;
 }
 </style>

@@ -5,6 +5,7 @@
 </template>
 
 <script>
+// 组件
 export default {
   name: 'cloudVillage'
 }

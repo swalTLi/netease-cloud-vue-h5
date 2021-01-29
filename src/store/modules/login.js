@@ -6,10 +6,11 @@ export const loginVuex = {
     // 登陆后的用户信息
     UserInformation: {},
     //  用户个性设置
-    UserSettings: {}
+    UserSettings: {},
+    //  退出的路径
+    last_path: ''
   }),
-  getters: {
-  },
+  getters: {},
   mutations: {
     // 登录成功
     loginSuccess: (state, payload) => {
@@ -20,9 +21,10 @@ export const loginVuex = {
       state.UserInformation = payload
     },
     // 退出登录
-    loginOut: (state) => {
-      state.isLogin = false
-    }
+    loginOut:
+      (state) => {
+        state.isLogin = false
+      }
   },
   actions: {
     // 登陆成功

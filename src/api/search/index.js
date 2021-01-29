@@ -10,5 +10,13 @@ export default {
       url: 'search/default',
       withCredentials: true
     })
+  },
+  searchHotDetal: () => {
+    // eslint-disable-next-line no-undef
+    return axios({
+      method: 'get',
+      url: 'search/hot/detail',
+      withCredentials: true
+    })
   }
 }
