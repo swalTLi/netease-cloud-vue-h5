@@ -26,6 +26,9 @@
           </template>
         </van-search>
       </template>
+      <template #title v-if="this.searchType === 'video'">
+        video
+      </template>
       <template #right>
         <svg class="icon" aria-hidden="true" @click="clickHelpBtn">
           <use xlink:href="#icon-wenjuantiaocha"></use>

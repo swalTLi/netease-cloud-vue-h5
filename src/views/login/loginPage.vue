@@ -19,7 +19,6 @@
 <script>
 // 组件
 import phoneComp from '@/components/login/phoneComp'
-
 export default {
   name: 'loginPage',
   data () {

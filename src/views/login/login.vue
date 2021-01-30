@@ -76,8 +76,10 @@ import img128 from '../../assets/image/ey128.png'
 
 export default {
   name: 'login',
+  compontents: { },
   data () {
     return {
+      t: '正在跳转',
       css: {
         imgWidth: 0,
         imgWidth2: 0
@@ -88,7 +90,39 @@ export default {
       checked: false,
       rule: {
         ExperienceNow: (type) => {
-          this.$router.push({ path: '/loginPage/' + type, query: { type: type } })
+          this.$dialog.confirm({
+            title: '立即体验',
+            message: '体验内容无需登录，可以直接使用，但是部分数据无法加载！'
+          })
+            .then(() => {
+              // on confirm
+              this.t = '正在跳转...'
+              this.$toast({
+                message: this.t,
+                icon: 'https://www.easyicon.net/api/resizeApi.php?id=1284842&size=96'
+              })
+              setTimeout(() => {
+                this.t = '检测安全环境...'
+                this.$toast({
+                  message: this.t,
+                  icon: 'https://www.easyicon.net/api/resizeApi.php?id=1284842&size=96'
+                })
+              }, 1500)
+              setTimeout(() => {
+                this.t = '环境安全，即将跳转...'
+                this.$toast({
+                  message: this.t,
+                  icon: 'https://www.easyicon.net/api/resizeApi.php?id=1284842&size=96'
+                })
+              }, 3000)
+              // 前往首页
+              setTimeout(() => {
+                this.$router.push({ path: '/Little_evil_fish_music' })
+              }, 5000)
+            })
+            .catch(() => {
+              // on cancel
+            })
         },
         Phone: (type) => {
           this.$router.push({ path: '/loginPage/' + type, query: { type: type } })
