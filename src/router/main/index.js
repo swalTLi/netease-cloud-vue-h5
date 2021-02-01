@@ -37,7 +37,37 @@ export const main = [
           keepAlive: true, // 不需要缓存
           isBack: true
         },
-        component: () => import(/* webpackChunkName: "about" */ '@/views/mainPages/video')
+        component: () => import(/* webpackChunkName: "about" */ '@/views/mainPages/video'),
+        children: [
+          {
+            path: '',
+            name: 'browseVideos',
+            meta: {
+              keepAlive: true, // 不需要缓存
+              isBack: true
+            },
+            component: () => import(/* webpackChunkName: "about" */ '@/components/video/browseVideos')
+          },
+          {
+            path: 'browseVideos',
+            name: 'browseVideos',
+            meta: {
+              keepAlive: true, // 不需要缓存
+              isBack: true
+            },
+            component: () => import(/* webpackChunkName: "about" */ '@/components/video/browseVideos')
+          },
+          {
+            path: 'classification',
+            name: 'classification',
+            meta: {
+              keepAlive: true, // 不需要缓存
+              isBack: true
+            },
+            component: () => import(/* webpackChunkName: "about" */ '@/components/video/classification')
+          }
+        ]
+
       },
       // 云村
       {

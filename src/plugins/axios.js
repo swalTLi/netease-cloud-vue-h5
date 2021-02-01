@@ -10,9 +10,13 @@ import axios from 'axios'
 
 const config = {
   // baseURL: 'http://h5sm.com:8088',
-  baseURL: 'http://www.lidaqing.plus:1901/',
+  // baseURL: 'http://www.lidaqing.plus:1901/',
+  baseURL: 'http://localhost:1901',
   timeout: 10 * 1000, // Timeout
-  withCredentials: true // Check cross-site Access-Control
+  withCredentials: true, // Check cross-site Access-Control,
+  data: {
+    cookie: window.localStorage.getItem('cookie')
+  }
 }
 
 const _axios = axios.create(config)

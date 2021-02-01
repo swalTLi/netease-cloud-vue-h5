@@ -15,7 +15,7 @@ const ItemOption = {
       name: name, // 名称
       value: value, // 保存的文件
       startTime: new Date().getTime(), // 开始保存的时间
-      expires: expires || 10000 // 设置 到期时间 , 默认到期时间 10秒 下次刷新请求数据
+      expires: expires || 1000 * 60 * 60 * 24 * 3 // 设置 到期时间 , 默认到期时间 3天 下次刷新请求数据
       // ldq: 'l'
     }
     // 将obj和传进来的params合并

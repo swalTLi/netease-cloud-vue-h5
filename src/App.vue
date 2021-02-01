@@ -33,7 +33,6 @@ export default {
 
   display: none
 }
-
 .icon {
   width: 1em;
   height: 1em;

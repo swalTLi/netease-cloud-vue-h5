@@ -17,7 +17,7 @@ export default {
     })
   },
   /**
-   *  获取视频分类列表
+   *  获取视频分类列表  XXX
    *
    *  说明 : 调用此接口 , 可获取视频分类列表
    *  接口地址 : /video/category/list
@@ -25,11 +25,14 @@ export default {
    */
 
   get_video_category_list: () => {
-  // eslint-disable-next-line no-undef
+    // eslint-disable-next-line no-undef
     return axios({
-      method: 'get',
-      url: 'video/category/list',
-      withCredentials: true
+      method: 'post',
+      url: 'video/category/list?cookie=' + window.localStorage.getItem('cookie'),
+      withCredentials: true,
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
     })
   },
   /**
@@ -41,16 +44,17 @@ export default {
    *  接口地址 : /video/group
    *  调用例子 : /video/group?id=9104
    */
-  get_video_Tags_Video_Url: (offset = 0) => {
+  get_video_Tags_Video_Url: (id, offset = 0) => {
     // eslint-disable-next-line no-undef
     return axios({
       method: 'get',
-      url: '/video/group?id=9104&offset=' + offset,
+      url: '/video/group?id=' + id + '&offset=1',
+      // + '&cookie=' + window.localStorage.getItem('cookie'),
       withCredentials: true
     })
   },
   /**
-   *  获取全部视频列表   （ 可以直接播放的视频列表 ）
+   *  获取全部视频列表   （ 可以直接播放的视频列表 ）  XXX
    *  直接使用 vid 找到视频
    *
    *  说明 : 调用此接口,可获取视频分类列表,分页参数只能传入offset
@@ -78,7 +82,7 @@ export default {
     // eslint-disable-next-line no-undef
     return axios({
       method: 'get',
-      url: '/video/timeline/recommend?offset=' + offset,
+      url: '/video/timeline/recommend',
       withCredentials: true
     })
   },

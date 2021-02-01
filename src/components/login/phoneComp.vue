@@ -61,6 +61,7 @@
 // import axios from 'axios'
 import { createNamespacedHelpers } from 'vuex'
 import { api as API } from '@/api/api'
+
 const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('loginVuex')
 export default {
   name: 'phoneComp',
@@ -103,7 +104,7 @@ export default {
         return this.$toast.fail('手机号格式错误')
       } else {
         API.login.loginPhone(13898102230, 'ldq2586463185').then(res => {
-          // console.log(res)
+          console.log(res.data.token)
           if (res.data.code === 200) {
             // window.localStorage.setItem('Authorization', res.data.token)
             // axios.interceptors.request.use(config => {
@@ -111,6 +112,8 @@ export default {
             //   return config
             // })
             // 登录成功 更改 vuex islogin登录状态 并把用户信息放到 vuex里面
+            window.localStorage.setItem('token', res.data.token)
+            window.localStorage.setItem('cookie', res.data.cookie)
             this.loginSuccess({ res: res })
             // console.log(this.UserInformation)
             this.loading()

@@ -21,13 +21,23 @@
           :placeholder="search.defaultKey.showKeyword"
           @click="handleSearchBtn"
         >
-          <template #action v-if="searchType==='search'" >
+          <template #action v-if="searchType==='search'">
             <div @click="goToSearch">搜索</div>
           </template>
         </van-search>
       </template>
-      <template #title v-if="this.searchType === 'video'">
-        video
+      <template #title v-else-if="this.searchType === 'video'">
+        <van-tabs v-model="active"
+                  swipeable
+                  animated
+                  title-active-color
+                  @click="linkTo">
+          <van-tab title="刷视频" ></van-tab>
+          <van-tab title="分类"   ></van-tab>
+        </van-tabs>
+      </template>
+      <template #title v-else-if="this.searchType === 'mine'">
+        我的
       </template>
       <template #right>
         <svg class="icon" aria-hidden="true" @click="clickHelpBtn">
@@ -46,6 +56,7 @@ export default {
   name: 'index',
   data () {
     return {
+      active: 0,
       searchKey: '',
       searchType: '',
       search: {
@@ -57,7 +68,8 @@ export default {
       NavBarType: {
         find: 1,
         search: 1
-      }
+      },
+      link: ['browseVideos', 'classification']
     }
   },
   mounted () {
@@ -70,8 +82,13 @@ export default {
     this.searchDefaultKey()
   },
   methods: {
+    linkTo (link) {
+      if (this.$route.fullPath.split('/').pop() !== this.link[link]) {
+        this.$router.push('/Little_evil_fish_music/video/' + this.link[link])
+      }
+    },
     goToSearch () {
-    //  保存当前输入框内的关键词
+      //  保存当前输入框内的关键词
       var oldHistory = localStorage('getItem', 'historyData')
       var hash = []
       for (var i = 0; i < oldHistory.length; i++) {
@@ -132,12 +149,17 @@ export default {
 </script>
 
 <style scoped lang="less">
+
 .icon {
   font-weight: 1000;
   font-size: 2rem;
 }
 
 #tab {
+  margin: auto;
+  display: flex;
+  justify-content: center;
+
   /deep/ .van-nav-bar {
     background: #DEE4E6;
 
@@ -158,5 +180,15 @@ export default {
     background-color: #FFFFFF;
   }
 
+  /deep/ .van-tabs {
+    margin-left: 25%;
+    width: 50% !important;
+  }
+  /deep/ .van-tabs__nav{
+    background: rgba(0,0,0,0) !important;
+  }
+  /deep/ .van-tabs__line{
+    background: linear-gradient(to right, seagreen, mediumseagreen);
+  }
 }
 </style>
