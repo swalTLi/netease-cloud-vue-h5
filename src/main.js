@@ -3,14 +3,18 @@ import App from './App.vue'
 import './registerServiceWorker'
 import router from './router'
 import store from './store'
-import Vant from 'vant'
+import Vant, { Lazyload } from 'vant'
 import 'vant/lib/index.css'
 import './plugins/axios'
 // import axios from 'axios'
 // axios
 // Vue.prototype.axios = axios
 import VueCookie from 'vue-cookie'
+Vue.use(Lazyload, {
+  lazyComponent: true
+})
 // Tell Vue to use the plugin
+
 Vue.use(VueCookie)
 Vue.use(Vant)
 // vant

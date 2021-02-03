@@ -13,7 +13,7 @@ export const play = {
     },
     // 播放中的music的信息
     playingMusic: {
-      type: 'video',
+      type: 'music',
       // 资源名称
       name: '',
       // music mp3 id

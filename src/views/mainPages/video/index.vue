@@ -2,7 +2,9 @@
 <!--    <browse-videos  v-if="true"/>-->
 <!--    <Classification v-if="false"/>-->
 <!--  <transition name="fade">-->
+  <div>
     <router-view/>
+  </div>
 <!--  </transition>-->
 </template>
 
@@ -44,5 +46,4 @@ export default {
 </script>
 
 <style scoped lang="less">
-
 </style>
