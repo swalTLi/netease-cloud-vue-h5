@@ -7,12 +7,12 @@
                  :key="index"
                  v-show="index<4">
           <!--          内容-->
-          <lazy-component name="ldq">
-            <van-loading type="spinner" color="#1989fa" v-show="loading"/>
-            <transition name="fade">
-              <browse-content :videoData="videoData"/>
-            </transition>
-          </lazy-component>
+          <!--          <lazy-component name="ldq">-->
+          <van-loading type="spinner" color="#1989fa" v-show="loading"/>
+          <transition name="fade">
+            <browse-content :videoData="videoData"/>
+          </transition>
+          <!--          </lazy-component>-->
         </van-tab>
       </van-tabs>
     </div>
@@ -33,13 +33,18 @@ export default {
   data () {
     return {
       list: [],
-      active: 0,
+      // 这个变量控制tab标签页默认index 修改成0 刷新后 点击其他页面 点击播放 在点击其他的视频播放 会发现视频不会暂停 ，不为0时 功能好使
+      active: 1,
       videoData: [],
-      loading: false
+      loading: false,
+      err: ''
     }
   },
   mounted () {
     this.start()
+  },
+  beforeRouteUpdate () {
+    this.$destroy('browseVideos')
   },
   methods: {
     start () {
@@ -55,7 +60,7 @@ export default {
         this.list = localStorage('getItem', 'get_video_category_list')
         // console.log(this.list)
       }
-      this.getTabVideo(0)
+      this.getTabVideo(this.active)
     },
     // 点击 tab 获取数据
     onClickTab (name, title) {
@@ -68,6 +73,10 @@ export default {
       // console.log(!localStorage('getItem', this.list[index].name))
       if (this.list[index].name === 'MV') {
         this.videoData = 1
+        setTimeout(() => {
+          this.err = '无法连接服务器'
+          this.loading = false
+        }, 3000)
         return 1
       }
       if (!localStorage('getItem', this.list[index].name)) {

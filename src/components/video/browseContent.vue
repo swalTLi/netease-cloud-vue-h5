@@ -1,7 +1,6 @@
 <template>
-  <div class="ss" v-if="videoData!==1">
-    <!--  {{videoData}}-->
-    <div class="videoBox" v-for="(item,index) in videoData" :key="index">
+  <div class="ss">
+    <div class="videoBox" v-for="(item,index) in videoData" v-show="item.data.title" :key="index">
       <div class="videoTitle">
         <div class="authorIcon">
           <img :src="item.data.creator.avatarUrl" alt="" width="40vw">
@@ -22,7 +21,7 @@
         </div>
       </div>
       <div class="video" v-if="item.data.creator">
-        {{item.vidUrl}}
+        <!--        {{ item.vidUrl }}-->
         <picture v-show="!item.play">
           <source :srcset="item.data.previewUrl" type="image/webp">
           <svg class="icon" aria-hidden="true"
@@ -30,12 +29,17 @@
             <use xlink:href="#icon-bofang2"></use>
           </svg>
           <source type="image/jpeg"
-                  :srcset="item.data.coverUrl" >
+                  :srcset="item.data.coverUrl">
           <img src="img.jpg" width="100%" style="background: black;">
         </picture>
-        <!--        <video-box v-if="!start" :vid="item.data.vid"/>-->
+        <svg class="icon icon2" aria-hidden="true"
+             v-show="item.playing"
+             @click="svg2(item,index)">
+          <use xlink:href="#icon-bofang2"></use>
+        </svg>
         <video width="100%"
                v-show="item.play"
+               :ref="item.data.vid"
                :id="item.data.vid"
                :autoplay="item.play"
                :src="item.vidUrl"
@@ -58,36 +62,67 @@ export default {
   data () {
     return {
       start: true,
-      url: ''
+      url: '',
+      lastVideoVid: '',
+      nowVideoVid: ''
     }
   },
   created () {
-    this.videoData.forEach((item, index) => {
-      this.videoData[index].play = false
-      this.videoData[index].vidUrl = '1'
-    })
+
+  },
+  beforeMount () {
+    // this.videoData.forEach((item, index) => {
+    //   this.videoData[index].play = false
+    //   this.videoData[index].playing = ''
+    //   this.videoData[index].vidUrl = '1'
+    //   this.videoData[index].vid = item.data.vid
+    // })
   },
   mounted () {
     console.log(this.videoData)
+    this.videoData.forEach((item, index) => {
+      this.videoData[index].play = false
+      this.videoData[index].playing = ''
+      this.videoData[index].vidUrl = '1'
+      this.videoData[index].vid = item.data.vid
+      document.getElementById(item.vid).addEventListener('pause', (event) => {
+        this.videoData[index].playing = true
+      })
+    })
   },
   methods: {
+    svg2 (item, index) {
+      console.log(item, index)
+    },
     // 点击播放按钮
     clickPlayBtn (item, index) {
-      console.log(this.videoData[index], index)
+      console.log(item)
+      try {
+        this.videoData.forEach((item, index) => {
+          // 如果有在播放的音乐把他关闭
+          document.getElementById(item.vid).pause()
+        })
+      } catch (e) {
+        console.log(e)
+      }
       this.videoData[index].play = true
+      this.nowVideoVid = this.videoData[index].data.vid
       API.video.get_video_url(this.videoData[index].data.vid).then(res => {
-        // this.url = res.data.urls[0].url
-        this.videoData[index].vidUrl = res.data.urls[0].url
-        console.log(this.videoData[index].vidUrl)
-        // 强制刷新数据
         this.$forceUpdate()
+        this.videoData[index].vidUrl = res.data.urls[0].url
+        // console.log(this.videoData[index].vidUrl)
+        // 强制刷新数据
+        // this.$forceUpdate()
+        // 把上一个播放的视频id保存下来
+        console.log(this.videoData[index].vid)
+        this.lastVideoVid = this.videoData[index].vid
       })
     }
   },
   updated () {
-    console.log(1)
   },
   props: ['videoData']
+
 }
 </script>
 
@@ -98,12 +133,13 @@ export default {
   height: 83vh;
   overflow-y: scroll;
   border-top: 2px solid seagreen;
+  position: relative;
 
   .videoBox {
+    display: flex;
+    flex-wrap: wrap;
     background: #fff;
     width: 100vw;
-    //height: 30vh;
-    //background: seagreen;
     margin-top: 5px;
 
     .videoTitle {
@@ -155,6 +191,11 @@ export default {
 
     .video {
       //background: rebeccapurple;
+      position: relative;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
       picture {
         display: flex;
         justify-content: center;
@@ -162,11 +203,23 @@ export default {
         flex-wrap: wrap;
         width: 100vw;
         position: relative;
-        height:56.25vw ;
+        height: 56.25vw;
+        overflow: hidden;
         .icon {
           font-size: 50px;
           position: absolute;
         }
+      }
+      video{
+        width: 100vw;
+        height: 56.25vw;
+        overflow: hidden;
+        object-fit: cover;
+      }
+
+      .icon2 {
+        font-size: 50px;
+        position: absolute;
       }
 
     }

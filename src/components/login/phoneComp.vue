@@ -118,6 +118,8 @@ export default {
             // console.log(this.UserInformation)
             this.loading()
           }
+        }).catch(e => {
+          console.log(e)
         })
       }
     },

@@ -41,17 +41,17 @@ _axios.interceptors.request.use(
       const source = CancelToken.source()
       config.cancelToken = source.token
       // 去缓存池获取缓存数据
-      const data = cache[config.url]
+      // const data = cache[config.url]
       // 获取当前时间戳
       // eslint-disable-next-line camelcase
-      const expire_time = getExpireTime()
+      // const expire_time = getExpireTime()
       // 判断缓存池中是否存在已有数据 存在的话 再判断是否过期
       // 未过期 source.cancel会取消当前的请求 并将内容返回到拦截器的err中
       // eslint-disable-next-line camelcase
-      if (data && expire_time - data.expire < EXPIRE_TIME) {
-        source.cancel(data)
-      }
+      // if (data && expire_time - data.expire < EXPIRE_TIME) {
+      //   source.cancel(data)
     }
+    // }
     return config
   })
 
