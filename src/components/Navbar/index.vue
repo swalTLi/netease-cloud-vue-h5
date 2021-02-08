@@ -33,7 +33,7 @@
                   title-active-color
                   @click="linkTo">
           <van-tab title="刷视频" ></van-tab>
-          <van-tab title="分类"   ></van-tab>
+<!--          <van-tab title="分类"   ></van-tab>-->
         </van-tabs>
       </template>
       <template #title v-else-if="this.searchType === 'mine'">

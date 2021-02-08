@@ -38,6 +38,7 @@
           <use xlink:href="#icon-bofang2"></use>
         </svg>
         <video width="100%"
+               :currentTime="item.currentTime"
                v-show="item.play"
                :ref="item.data.vid"
                :id="item.data.vid"
@@ -64,7 +65,8 @@ export default {
       start: true,
       url: '',
       lastVideoVid: '',
-      nowVideoVid: ''
+      nowVideoVid: '',
+      lastIndex: ''
     }
   },
   created () {
@@ -84,6 +86,7 @@ export default {
       this.videoData[index].play = false
       this.videoData[index].playing = ''
       this.videoData[index].vidUrl = '1'
+      this.videoData[index].currentTime = 0
       this.videoData[index].vid = item.data.vid
       document.getElementById(item.vid).addEventListener('pause', (event) => {
         this.videoData[index].playing = true
@@ -96,10 +99,23 @@ export default {
     },
     // 点击播放按钮
     clickPlayBtn (item, index) {
-      console.log(item)
+      // console.log(this.lastIndex)
       try {
+        // 保存前一个视频的播放进度
+        // console.log(this.videoData[this.lastIndex].vid)
+        // 已经播放时长
+        // console.log(document.getElementById(this.videoData[this.lastIndex].vid).currentTime)
+        if (this.lastIndex !== '') {
+          console.log(this.videoData[this.lastIndex].currentTime)
+          this.videoData[this.lastIndex].currentTime = document.getElementById(this.videoData[this.lastIndex].vid).currentTime
+          console.log(this.videoData[this.lastIndex].currentTime)
+          console.log(this.videoData)
+          // localStorage('setItem', this.list[name].name, this.videoData)
+        }
+        console.log(index)
         this.videoData.forEach((item, index) => {
           // 如果有在播放的音乐把他关闭
+          console.log(document.getElementById(item.vid))
           document.getElementById(item.vid).pause()
         })
       } catch (e) {
@@ -116,6 +132,7 @@ export default {
         // 把上一个播放的视频id保存下来
         console.log(this.videoData[index].vid)
         this.lastVideoVid = this.videoData[index].vid
+        this.lastIndex = index
       })
     }
   },
