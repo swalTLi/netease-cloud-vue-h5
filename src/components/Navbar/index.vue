@@ -78,7 +78,7 @@ export default {
     } else {
       this.searchType = this.$route.fullPath.split('/')[2]
     }
-    console.log(this.searchType)
+    // console.log(this.searchType)
     this.searchDefaultKey()
   },
   methods: {
@@ -99,7 +99,7 @@ export default {
       localStorage('setItem', 'historyData',
         [this.searchKey === '' ? this.search.defaultKey.realkeyword : this.searchKey, ...hash]
         , 1000000)
-      console.log(localStorage('getItem', 'historyData'))
+      // console.log(localStorage('getItem', 'historyData'))
     },
     clickHelpBtn () {
       this.$dialog.alert({
@@ -119,7 +119,7 @@ export default {
       }
     },
     openSidebar () {
-      console.log(1)
+      // console.log(1)
     },
     searchDefaultKey () {
       // 优先加载缓存
@@ -141,7 +141,7 @@ export default {
       } else {
         this.searchType = this.$route.fullPath.split('/')[2]
       }
-      console.log(this.searchType)
+      // console.log(this.searchType)
     }
   }
 

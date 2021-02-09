@@ -74,7 +74,7 @@ export default {
     }
   },
   mounted () {
-    console.log(2)
+    // console.log(2)
     this.active = this.route[this.$route.fullPath.split('/')[2]]
   },
   watch: {

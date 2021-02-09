@@ -22,20 +22,18 @@
       </div>
       <div class="video" v-if="item.data.creator">
         <!--        {{ item.vidUrl }}-->
+
         <picture v-show="!item.play">
           <source :srcset="item.data.previewUrl" type="image/webp">
-          <svg class="icon" aria-hidden="true"
-               @click="clickPlayBtn(item,index)">
-            <use xlink:href="#icon-bofang2"></use>
-          </svg>
           <source type="image/jpeg"
                   :srcset="item.data.coverUrl">
           <img src="img.jpg" width="100%" style="background: black;">
         </picture>
-        <svg class="icon icon2" aria-hidden="true"
-             v-show="item.playing"
-             @click="svg2(item,index)">
-          <use xlink:href="#icon-bofang2"></use>
+        <!--        -->
+        <svg class="icon icon2"
+             v-if="!item.play"
+             @click="clickPlayBtn(item,index)">
+          <use :xlink:href="'#icon-'+'bofang2'"></use>
         </svg>
         <video width="100%"
                :currentTime="item.currentTime"
@@ -56,7 +54,6 @@
 <script>
 // import VideoBox from './videoBox'
 import { api as API } from '../../api/api'
-
 export default {
   name: 'browseContent',
   // components: { VideoBox },
@@ -80,8 +77,11 @@ export default {
     //   this.videoData[index].vid = item.data.vid
     // })
   },
+  activated () {
+    // console.log(1)
+  },
   mounted () {
-    console.log(this.videoData)
+    // console.log(this.videoData)
     this.videoData.forEach((item, index) => {
       this.videoData[index].play = false
       this.videoData[index].playing = ''
@@ -89,7 +89,7 @@ export default {
       this.videoData[index].currentTime = 0
       this.videoData[index].vid = item.data.vid
       document.getElementById(item.vid).addEventListener('pause', (event) => {
-        this.videoData[index].playing = true
+        this.videoData[index].play = false
       })
     })
   },
@@ -105,17 +105,17 @@ export default {
         // console.log(this.videoData[this.lastIndex].vid)
         // 已经播放时长
         // console.log(document.getElementById(this.videoData[this.lastIndex].vid).currentTime)
-        if (this.lastIndex !== '') {
-          console.log(this.videoData[this.lastIndex].currentTime)
-          this.videoData[this.lastIndex].currentTime = document.getElementById(this.videoData[this.lastIndex].vid).currentTime
-          console.log(this.videoData[this.lastIndex].currentTime)
-          console.log(this.videoData)
-          // localStorage('setItem', this.list[name].name, this.videoData)
-        }
-        console.log(index)
+        // if (this.lastIndex !== '') {
+        //   // console.log(this.videoData[this.lastIndex].currentTime)
+        //   this.videoData[this.lastIndex].currentTime = document.getElementById(this.videoData[this.lastIndex].vid).currentTime
+        //   // console.log(this.videoData[this.lastIndex].currentTime)
+        //   // console.log(this.videoData)
+        //   // localStorage('setItem', this.list[name].name, this.videoData)
+        // }
+        // console.log(index)
         this.videoData.forEach((item, index) => {
           // 如果有在播放的音乐把他关闭
-          console.log(document.getElementById(item.vid))
+          // console.log(document.getElementById(item.vid))
           document.getElementById(item.vid).pause()
         })
       } catch (e) {
@@ -123,6 +123,7 @@ export default {
       }
       this.videoData[index].play = true
       this.nowVideoVid = this.videoData[index].data.vid
+      document.getElementById(item.vid).play()
       API.video.get_video_url(this.videoData[index].data.vid).then(res => {
         this.$forceUpdate()
         this.videoData[index].vidUrl = res.data.urls[0].url
@@ -130,7 +131,7 @@ export default {
         // 强制刷新数据
         // this.$forceUpdate()
         // 把上一个播放的视频id保存下来
-        console.log(this.videoData[index].vid)
+        // console.log(this.videoData[index].vid)
         this.lastVideoVid = this.videoData[index].vid
         this.lastIndex = index
       })
@@ -213,6 +214,10 @@ export default {
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
+      .icon {
+        font-size: 50px;
+        position: absolute;
+      }
       picture {
         display: flex;
         justify-content: center;
@@ -222,10 +227,7 @@ export default {
         position: relative;
         height: 56.25vw;
         overflow: hidden;
-        .icon {
-          font-size: 50px;
-          position: absolute;
-        }
+
       }
       video{
         width: 100vw;

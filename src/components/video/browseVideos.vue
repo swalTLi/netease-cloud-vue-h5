@@ -1,19 +1,19 @@
 <template>
   <transition name="fade">
     <div class="tabs" v-if="1">
-        <van-tabs v-model="active" v-if="list" swipeable @click="onClickTab" :key="key">
-          <van-tab v-for="(item,index) in list" :replace="true" v-show="item.name && index<4"
-                   :title="item.name"
-                   :key="index">
-            <!--          内容-->
-            <lazy-component name="ldq">
-              <van-loading type="spinner" color="#1989fa" v-show="loading"/>
-              <transition name="fade">
-                <browse-content :videoData="videoData"/>
-              </transition>
-            </lazy-component>
-          </van-tab>
-        </van-tabs>
+      <van-tabs v-model="active" v-if="list" swipeable @click="onClickTab" :key="key">
+        <van-tab v-for="(item,index) in list" :replace="true"
+                 :title="item.name"
+                 :key="index">
+          <!--          内容-->
+          <lazy-component name="ldq">
+            <van-loading type="spinner" color="#1989fa" v-show="loading"/>
+            <transition name="fade">
+              <browse-content :videoData="videoData"/>
+            </transition>
+          </lazy-component>
+        </van-tab>
+      </van-tabs>
     </div>
   </transition>
 
@@ -47,7 +47,7 @@ export default {
   },
   mounted () {
     this.start()
-    console.log(this.list)
+    // console.log(this.list)
     this.lastActive = this.active
   },
   beforeRouteUpdate () {
@@ -58,6 +58,13 @@ export default {
       if (!localStorage('getItem', 'get_video_category_list')) {
         API.video.get_video_category_list().then(res => {
           // console.log(res)
+          res.data.data.forEach((item, index) => {
+            if (item.name === 'MV') {
+              // console.log('mv')
+              res.data.data.splice(index, 1)
+            }
+            return true
+          })
           this.list = res.data.data
           localStorage('setItem', 'get_video_category_list', res.data.data, 10000 * 60 * 60)
           this.getTabVideo(this.active)
@@ -66,6 +73,14 @@ export default {
         })
       } else {
         this.list = localStorage('getItem', 'get_video_category_list')
+        // console.log(this.list)
+        this.list.forEach((item, index) => {
+          if (item.name === 'MV') {
+            // console.log('mv')
+            this.list.splice(index, 1)
+          }
+          return false
+        })
         this.getTabVideo(this.active)
       }
     },
@@ -107,8 +122,8 @@ export default {
         }, 3000)
         return 1
       }
-      console.log(1)
-      console.log(this.videoData)
+      // console.log(1)
+      // console.log(this.videoData)
     }
   }
 }
