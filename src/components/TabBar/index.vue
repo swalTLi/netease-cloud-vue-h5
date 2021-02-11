@@ -64,23 +64,26 @@ export default {
         active: video,
         inactive: Active
       },
-
+      searchResult: {
+        active: search,
+        inactive: Active
+      },
       route: {
         find: 0,
         search: 1,
+        searchResult: 1,
         video: 2,
         mine: 3
       }
     }
   },
   mounted () {
-    // console.log(2)
     this.active = this.route[this.$route.fullPath.split('/')[2]]
   },
   watch: {
     // 改变激活状态
     '$route.fullPath' (newV, oldV) {
-      this.active = this.route[newV.split('/')[2]]
+      this.active = this.route[newV.split('?')[0].split('/')[2]]
     }
   }
 }

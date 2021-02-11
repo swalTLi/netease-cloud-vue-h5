@@ -35,8 +35,11 @@
           :shape="$route.fullPath.split('/')[2]==='search'?'square':'round'"
           background="rgba(0,0,0,0)"
           :placeholder="search.defaultKey.showKeyword"
+          @focus="handlesearchFocus=true"
           @click="handleSearchBtn"
+          @input="handleSearchInput"
         >
+<!--          @blur="handlesearchFocus=false"-->
           <template #action v-if="searchType==='search'">
             <div @click="goToSearch">搜索</div>
           </template>
@@ -64,7 +67,10 @@
           :shape="$route.fullPath.split('/')[2]==='search'?'square':'round'"
           background="rgba(0,0,0,0)"
           :placeholder="search.defaultKey.showKeyword"
+          @focus="handlesearchFocus=true"
+          @input="handleSearchInput"
         ></van-search>
+<!--        @blur="handlesearchFocus=false"-->
       </template>
       <template #right v-if="
                   searchType==='find'
@@ -89,6 +95,19 @@
         </svg>
       </template>
     </van-nav-bar>
+    <div class="handlesearchFocus" v-show="handlesearchFocus">
+      <ul>
+        <li v-show="searchKey"  @click.self="handleLiClick()">
+          {{ '搜索 ' + '"' + searchKey + '"' }}
+        </li>
+        <li v-for="(item,index) in  KeyWordsAssociation" :key="index" @click="handleLiClick(item.keyword)">
+          <svg class="icon" aria-hidden="true">
+            <use :xlink:href="'#icon-Search'+index"></use>
+          </svg>
+          {{ item.keyword }}
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 
@@ -101,7 +120,7 @@ export default {
   data () {
     return {
       active: 0,
-      searchKey: undefined,
+      searchKey: '',
       searchType: '',
       search: {
         defaultKey: {
@@ -117,56 +136,102 @@ export default {
         video: ['video', 'browseVideos', 'classification'],
         mine: ['mine']
       },
-      link: ['browseVideos', 'classification']
+      link: ['browseVideos', 'classification'],
+      // 关键词联想
+      KeyWordsAssociation: [],
+      // 焦点在search 弹出提示框
+      handlesearchFocus: false
     }
   },
   mounted () {
     // 分解出当前url的关键字段
     var url = this.$route.fullPath.split('?')[0]
-    console.log(url)
+    // console.log(url)
     if (!url.split('/')[2]) {
       this.searchType = 'find'
     } else {
       this.searchType = url.split('/')[2]
     }
-    console.log(this.searchType)
+    // console.log(this.searchType)
     this.searchDefaultKey()
   },
   methods: {
+    // 搜索推荐li点击事件
+    handleLiClick (key) {
+      // 获取搜索关键词
+      key = key ?? this.searchKey
+      // console.log(key)
+      // 关闭推荐列表
+      this.handlesearchFocus = false
+      // 保存关键词
+      this.searchKey = key
+      // 保存历史记录
+      //  保存当前输入框内的关键词
+      var oldHistory = localStorage('getItem', 'historyData')
+      // 如果history为空则初始化
+      oldHistory ??= []
+      var newKey = key
+      // 把相同历史记录 挪到数组第一位
+      oldHistory.push(newKey)
+      // 存入当前浏览历史记录
+      localStorage('setItem', 'historyData', [...new Set(oldHistory)], 1000 * 60 * 60 * 24 * 365)
+      // 跳转到 searchResult 页面
+      if (this.searchType === 'search') {
+        this.$router.push({
+          path: '/Little_evil_fish_music/searchResult',
+          query: {
+            key: key
+          }
+        })
+      }
+    },
+    // 获取关键词联想内容
+    handleSearchInput (input) {
+      // this.handlesearchFocus = false
+      if (input) {
+        // console.log(input)
+        this.handlesearchFocus = true
+        this.$forceUpdate()
+        API.search.getSearchSuggestions(input).then(res => {
+          this.KeyWordsAssociation = res.data.result.allMatch
+        })
+      }
+    },
     // 清空search内容
     clickEmptySearch () {
-      this.searchKey = undefined
+      this.searchKey = ''
     },
     // 返回上一级
     back () {
       this.$router.go(-1)
     },
+    // 切换videotab
     linkTo (link) {
       if (this.$route.fullPath.split('/').pop() !== this.link[link]) {
         this.$router.push('/Little_evil_fish_music/video/' + this.link[link])
       }
     },
-    goToSearch () {
+    // 点击搜索按钮
+    goToSearch (key) {
       //  保存当前输入框内的关键词
       var oldHistory = localStorage('getItem', 'historyData')
       // 如果history为空则初始化
       oldHistory ??= []
-      var newKey = this.searchKey ?? this.search.defaultKey.realkeyword
-      // 存入当前浏览历史记录
+      var newKey = this.searchKey || this.search.defaultKey.realkeyword
       // 把相同历史记录 挪到数组第一位
-      // console.log(newKey, oldHistory)
       oldHistory.push(newKey)
+      // 存入当前浏览历史记录
       localStorage('setItem', 'historyData', [...new Set(oldHistory)], 1000 * 60 * 60 * 24 * 365)
-      // console.log(localStorage('getItem', 'historyData'))
-      console.log(newKey)
       this.searchKey = newKey
+      this.handlesearchFocus = false
       this.$router.push({
         path: '/Little_evil_fish_music/searchResult',
         query: {
-          key: 'searchkey'
+          key: newKey
         }
       })
     },
+    // 点击页头右侧按钮
     clickHelpBtn () {
       this.$dialog.alert({
         title: '免责声明！',
@@ -177,6 +242,7 @@ export default {
         // on close
       })
     },
+    // 处理搜索框点击事件
     handleSearchBtn () {
       if (this.$route.fullPath.split('/')[2] !== 'search') {
         this.$router.push({
@@ -184,8 +250,10 @@ export default {
         })
       }
     },
+    // 页头tab左侧按钮点击事件
     openSidebar () {
     },
+    // 默认搜索推荐
     searchDefaultKey () {
       // 优先加载缓存
       if (!localStorage('getItem', 'searchDefaultKey')) {
@@ -206,7 +274,7 @@ export default {
       } else {
         this.searchType = this.$route.fullPath.split('/')[2]
       }
-      console.log(this.searchType)
+      // console.log(this.searchType)
     }
   }
 
@@ -256,6 +324,35 @@ export default {
 
   /deep/ .van-tabs__line {
     background: linear-gradient(to right, seagreen, mediumseagreen);
+  }
+}
+
+.handlesearchFocus {
+  margin-left: 15%;
+  width: 70%;
+  position: absolute;
+  z-index: 999;
+  ul {
+    line-height: 2.5rem;
+    box-shadow: #c9c9c9 0px 0px 10px; //将h-shadow,v-shadow设为0px,实现四周阴影
+    li {
+      padding: 0 10px;
+      font-size: 1px;
+      border: 0.1rem solid #e0e0e0;
+      border-bottom: 0;
+      background: white;
+      display: flex;
+      align-content: space-between;
+      align-items: center;
+    }
+
+    li:first-child {
+      color: royalblue;
+    }
+
+    li:last-child {
+      border-bottom: 0.1rem solid #e0e0e0;
+    }
   }
 }
 </style>

@@ -47,6 +47,9 @@ export default {
   mounted () {
     this.findBanners()
   },
+  activated () {
+    this.findBanners()
+  },
   methods: {
     // 详细的 banner 图数据
     findBanners () {

@@ -42,7 +42,14 @@ export default {
   mounted () {
     this.historyData = localStorage('getItem', 'historyData')
   },
-  methods: {}
+  methods: {},
+  watch: {
+    // 改变激活状态
+    '$route.fullPath' (newV, oldV) {
+      this.historyData = localStorage('getItem', 'historyData')
+    }
+    // console.log(this.searchType)
+  }
 }
 </script>
 <style scoped lang="less">
