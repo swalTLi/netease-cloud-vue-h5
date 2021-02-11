@@ -73,7 +73,7 @@ export default {
     },
     getData () {
       API.search.searchHotDetal().then((res) => {
-        console.log(res.data.data)
+        // console.log(res.data.data)
         this.newHotData = res.data.data
       })
     }

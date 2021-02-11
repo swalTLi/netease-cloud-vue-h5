@@ -89,6 +89,16 @@ export const main = [
         },
         component: () => import(/* webpackChunkName: "about" */ '@/views/mainPages/search')
       },
+      // 搜索结果
+      {
+        path: 'searchResult',
+        name: 'searchResult',
+        meta: {
+          keepAlive: true, // 不需要缓存
+          isBack: true
+        },
+        component: () => import(/* webpackChunkName: "about" */ '@/views/mainPages/searchResult')
+      },
       // 我的
       {
         path: 'mine',

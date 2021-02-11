@@ -48,7 +48,7 @@ export default {
     // eslint-disable-next-line no-undef
     return axios({
       method: 'get',
-      url: '/video/group?id=' + id + '&offset=1',
+      url: '/video/group?id=' + id + '&offset=' + offset,
       // + '&cookie=' + window.localStorage.getItem('cookie'),
       withCredentials: true
     })

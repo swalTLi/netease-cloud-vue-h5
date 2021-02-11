@@ -115,7 +115,7 @@ export default {
         })
       } else {
         this.banners = localStorage('getItem', 'banner')
-        console.log(this.banners)
+        // console.log(this.banners)
       }
     },
     //  首页导航图表按钮数据

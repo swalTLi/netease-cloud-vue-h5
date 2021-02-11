@@ -9,7 +9,7 @@
         </div>
         <div class="history">
           <div class="for" v-for="(item,index) in historyData" :key="index">
-            <van-button class="item" :text=item
+            <van-button class="item" :text=historyData[historyData.length-index]
                         size="mini" color="whitesmoke"
                         round type="info" />
           </div>
@@ -41,7 +41,6 @@ export default {
   },
   mounted () {
     this.historyData = localStorage('getItem', 'historyData')
-    console.log(this.historyData)
   },
   methods: {}
 }

@@ -7,12 +7,28 @@
       :safe-area-inset-top=true
       :border=false
     >
-      <template #left>
+      <template #left v-if="
+                  searchType==='find'
+                ||searchType==='search'
+                ||searchType==='find'
+                ||searchType==='video'
+                ||searchType==='find'
+                ||searchType==='mine'
+">
         <svg class="icon" aria-hidden="true" @click="openSidebar">
           <use xlink:href="#icon-gengduo2"></use>
         </svg>
       </template>
-      <template #title v-if="NavBarType[searchType]">
+      <template #left v-else-if="searchType">
+        <svg class="icon" aria-hidden="true" @click="back">
+          <use xlink:href="#icon-fanhui"></use>
+        </svg>
+      </template>
+      <template #title
+                v-if="
+                searchType==='find'
+                ||searchType==='search'
+">
         <van-search
           v-model="searchKey"
           :show-action="$route.fullPath.split('/')[2]==='search'"
@@ -26,22 +42,50 @@
           </template>
         </van-search>
       </template>
-      <template #title v-else-if="this.searchType === 'video'">
+      <template #title v-else-if="searchType === 'video'">
         <van-tabs v-model="active"
                   swipeable
                   animated
                   title-active-color
                   @click="linkTo">
-          <van-tab title="刷视频" ></van-tab>
-<!--          <van-tab title="分类"   ></van-tab>-->
+          <van-tab title="刷视频"></van-tab>
+          <!--          <van-tab title="分类"   ></van-tab>-->
         </van-tabs>
       </template>
-      <template #title v-else-if="this.searchType === 'mine'">
+      <template #title v-else-if="searchType === 'mine'">
         我的
       </template>
-      <template #right>
+      <!--      搜索结果 searchResult-->
+      <template #title v-else-if="searchType">
+        <van-search
+          :clearable="false"
+          v-model="searchKey"
+          :show-action="$route.fullPath.split('/')[2]==='search'"
+          :shape="$route.fullPath.split('/')[2]==='search'?'square':'round'"
+          background="rgba(0,0,0,0)"
+          :placeholder="search.defaultKey.showKeyword"
+        ></van-search>
+      </template>
+      <template #right v-if="
+                  searchType==='find'
+                ||searchType==='search'
+                ||searchType==='find'
+                ||searchType==='video'
+                ||searchType==='find'
+                ||searchType==='mine'
+">
         <svg class="icon" aria-hidden="true" @click="clickHelpBtn">
           <use xlink:href="#icon-wenjuantiaocha"></use>
+        </svg>
+      </template>
+      <template #right v-else-if="searchType">
+        <svg class="icon" aria-hidden="true" @click="clickEmptySearch">
+          <transition name="fade">
+            <use xlink:href="#icon-X-copy" v-if="searchKey"></use>
+          </transition>
+          <transition name="fade">
+            <use xlink:href="#icon-X" v-if="!searchKey"></use>
+          </transition>
         </svg>
       </template>
     </van-nav-bar>
@@ -57,7 +101,7 @@ export default {
   data () {
     return {
       active: 0,
-      searchKey: '',
+      searchKey: undefined,
       searchType: '',
       search: {
         defaultKey: {
@@ -66,22 +110,37 @@ export default {
         }
       },
       NavBarType: {
-        find: 1,
-        search: 1
+        leftBtn: ['find', 'search', 'video', 'mine'],
+        find: ['find'],
+        search: ['search'],
+        searchResult: ['searchResult'],
+        video: ['video', 'browseVideos', 'classification'],
+        mine: ['mine']
       },
       link: ['browseVideos', 'classification']
     }
   },
   mounted () {
-    if (!this.$route.fullPath.split('/')[2]) {
+    // 分解出当前url的关键字段
+    var url = this.$route.fullPath.split('?')[0]
+    console.log(url)
+    if (!url.split('/')[2]) {
       this.searchType = 'find'
     } else {
-      this.searchType = this.$route.fullPath.split('/')[2]
+      this.searchType = url.split('/')[2]
     }
-    // console.log(this.searchType)
+    console.log(this.searchType)
     this.searchDefaultKey()
   },
   methods: {
+    // 清空search内容
+    clickEmptySearch () {
+      this.searchKey = undefined
+    },
+    // 返回上一级
+    back () {
+      this.$router.go(-1)
+    },
     linkTo (link) {
       if (this.$route.fullPath.split('/').pop() !== this.link[link]) {
         this.$router.push('/Little_evil_fish_music/video/' + this.link[link])
@@ -90,16 +149,23 @@ export default {
     goToSearch () {
       //  保存当前输入框内的关键词
       var oldHistory = localStorage('getItem', 'historyData')
-      var hash = []
-      for (var i = 0; i < oldHistory.length; i++) {
-        if (oldHistory.indexOf(oldHistory[i]) === i) {
-          hash.push(oldHistory[i])
-        }
-      }
-      localStorage('setItem', 'historyData',
-        [this.searchKey === '' ? this.search.defaultKey.realkeyword : this.searchKey, ...hash]
-        , 1000000)
+      // 如果history为空则初始化
+      oldHistory ??= []
+      var newKey = this.searchKey ?? this.search.defaultKey.realkeyword
+      // 存入当前浏览历史记录
+      // 把相同历史记录 挪到数组第一位
+      // console.log(newKey, oldHistory)
+      oldHistory.push(newKey)
+      localStorage('setItem', 'historyData', [...new Set(oldHistory)], 1000 * 60 * 60 * 24 * 365)
       // console.log(localStorage('getItem', 'historyData'))
+      console.log(newKey)
+      this.searchKey = newKey
+      this.$router.push({
+        path: '/Little_evil_fish_music/searchResult',
+        query: {
+          key: 'searchkey'
+        }
+      })
     },
     clickHelpBtn () {
       this.$dialog.alert({
@@ -119,7 +185,6 @@ export default {
       }
     },
     openSidebar () {
-      // console.log(1)
     },
     searchDefaultKey () {
       // 优先加载缓存
@@ -141,7 +206,7 @@ export default {
       } else {
         this.searchType = this.$route.fullPath.split('/')[2]
       }
-      // console.log(this.searchType)
+      console.log(this.searchType)
     }
   }
 
@@ -184,10 +249,12 @@ export default {
     margin-left: 25%;
     width: 50% !important;
   }
-  /deep/ .van-tabs__nav{
-    background: rgba(0,0,0,0) !important;
+
+  /deep/ .van-tabs__nav {
+    background: rgba(0, 0, 0, 0) !important;
   }
-  /deep/ .van-tabs__line{
+
+  /deep/ .van-tabs__line {
     background: linear-gradient(to right, seagreen, mediumseagreen);
   }
 }
