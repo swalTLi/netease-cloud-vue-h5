@@ -146,7 +146,6 @@ export default {
   mounted () {
     // 分解出当前url的关键字段
     var url = this.$route.fullPath.split('?')[0]
-    // console.log(url)
     if (!url.split('/')[2]) {
       this.searchType = 'find'
     } else {
@@ -154,6 +153,9 @@ export default {
     }
     // console.log(this.searchType)
     this.searchDefaultKey()
+    this.searchKey = this.$route.query.key
+    this.$forceUpdate()
+    // console.log(encodeURI(this.$route.fullPath.split('?')[1]))
   },
   methods: {
     // 搜索推荐li点击事件
@@ -274,10 +276,10 @@ export default {
       } else {
         this.searchType = this.$route.fullPath.split('/')[2]
       }
-      // console.log(this.searchType)
+      this.searchKey = this.$route.query.key
+      this.$forceUpdate()
     }
   }
-
 }
 </script>
 

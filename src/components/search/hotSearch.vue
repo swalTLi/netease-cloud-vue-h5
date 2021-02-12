@@ -20,7 +20,12 @@
         </div>
       </div>
       <div class="main-box" v-if="newHotData">
-        <div class="for" v-for="(item,index) in newHotData" :key="index" v-show="index<=9">
+        <div class="for"
+             v-for="(item,index) in newHotData"
+             :key="index"
+             v-show="index<=9"
+             @click="clickHotSearch(item.searchWord)
+        ">
           <div class="index" :style="{color:index+1>3? '#a0a0a0':'red' }" v-if="index<=9">
             {{ index + 1 }}
           </div>
@@ -38,7 +43,12 @@
       </div>
       <transition name="fade">
         <div class="main-box" v-if="show">
-          <div class="for" v-for="(item,index) in newHotData" :key="index" v-show="index>9">
+          <div class="for"
+               v-for="(item,index) in newHotData"
+               :key="index"
+               v-show="index>9"
+               @click="clickHotSearch(item.searchWord)"
+               >
             <div class="index" :style="{color:index+1>3? '#a0a0a0':'red' }" v-if="index>9">
               {{ index + 1 }}
             </div>
@@ -55,6 +65,7 @@
 
 <script>
 import { api as API } from '@/api/api'
+import { localStorage } from '@/common/localStorage'
 
 export default {
   name: 'hotSearch',
@@ -68,6 +79,26 @@ export default {
     this.getData()
   },
   methods: {
+    // 点击热点官籍此搜索
+    clickHotSearch (key) {
+      // 保存历史记录
+      //  保存当前输入框内的关键词
+      var oldHistory = localStorage('getItem', 'historyData')
+      // 如果history为空则初始化
+      oldHistory ??= []
+      var newKey = key
+      // 把相同历史记录 挪到数组第一位
+      oldHistory.push(newKey)
+      // 存入当前浏览历史记录
+      localStorage('setItem', 'historyData', [...new Set(oldHistory)], 1000 * 60 * 60 * 24 * 365)
+      //  跳转到searchResult页面
+      this.$router.push({
+        path: '/Little_evil_fish_music/searchResult',
+        query: {
+          key: key
+        }
+      })
+    },
     hide () {
       this.show = true
     },
