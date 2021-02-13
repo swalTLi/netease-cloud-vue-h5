@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
     <div class="tabs" v-if="1">
-      <van-tabs v-model="active" v-if="list" swipeable @click="onClickTab" :key="key">
+      <van-tabs v-model="active" v-if="list" animated swipeable @click="onClickTab" :key="key">
         <van-tab v-for="(item,index) in list" :replace="true"
                  :title="item.name"
                  :key="index">
@@ -124,6 +124,13 @@ export default {
       }
       // console.log(1)
       // console.log(this.videoData)
+    }
+  },
+  watch: {
+    'active' (newV, oldV) {
+      // console.log(newV, oldV)
+      // this.onClickTab(newV)
+      // this.lastActive = oldV
     }
   }
 }

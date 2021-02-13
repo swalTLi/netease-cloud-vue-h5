@@ -22,7 +22,7 @@
       </div>
       <div class="main-box">
         <div class="text">
-          <div class="fors" v-for="(item,index) in data.creatives" :key="index">
+          <div class="fors" v-for="(item,index) in data.creatives" :key="index" v-show=" item.resources">
             <div class="left">
               <div class="top">
                 <span class="day">
@@ -65,7 +65,7 @@ export default {
     }
   },
   mounted () {
-    // console.log(this.data.blockCode, this.data)
+    console.log(this.data.blockCode, this.data)
   },
   methods: {},
   props: ['data']

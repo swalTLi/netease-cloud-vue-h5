@@ -38,8 +38,9 @@
           @focus="handlesearchFocus=true"
           @click="handleSearchBtn"
           @input="handleSearchInput"
+          @blur="blur"
         >
-<!--          @blur="handlesearchFocus=false"-->
+          <!--          @blur="handlesearchFocus=false"-->
           <template #action v-if="searchType==='search'">
             <div @click="goToSearch">搜索</div>
           </template>
@@ -69,8 +70,9 @@
           :placeholder="search.defaultKey.showKeyword"
           @focus="handlesearchFocus=true"
           @input="handleSearchInput"
+          @blur="blur"
         ></van-search>
-<!--        @blur="handlesearchFocus=false"-->
+        <!--        @blur="handlesearchFocus=false"-->
       </template>
       <template #right v-if="
                   searchType==='find'
@@ -97,7 +99,7 @@
     </van-nav-bar>
     <div class="handlesearchFocus" v-show="handlesearchFocus">
       <ul>
-        <li v-show="searchKey"  @click.self="handleLiClick()">
+        <li v-show="searchKey" @click.self="handleLiClick()">
           {{ '搜索 ' + '"' + searchKey + '"' }}
         </li>
         <li v-for="(item,index) in  KeyWordsAssociation" :key="index" @click="handleLiClick(item.keyword)">
@@ -158,6 +160,12 @@ export default {
     // console.log(encodeURI(this.$route.fullPath.split('?')[1]))
   },
   methods: {
+    // 失去焦点事件
+    blur (e) {
+      setTimeout(() => {
+        this.handlesearchFocus = false
+      }, 100)
+    },
     // 搜索推荐li点击事件
     handleLiClick (key) {
       // 获取搜索关键词
@@ -178,14 +186,14 @@ export default {
       // 存入当前浏览历史记录
       localStorage('setItem', 'historyData', [...new Set(oldHistory)], 1000 * 60 * 60 * 24 * 365)
       // 跳转到 searchResult 页面
-      if (this.searchType === 'search') {
-        this.$router.push({
-          path: '/Little_evil_fish_music/searchResult',
-          query: {
-            key: key
-          }
-        })
-      }
+      // if (this.searchType === 'search') {
+      this.$router.push({
+        path: '/Little_evil_fish_music/searchResult',
+        query: {
+          key: key
+        }
+      })
+      // }
     },
     // 获取关键词联想内容
     handleSearchInput (input) {
@@ -205,7 +213,9 @@ export default {
     },
     // 返回上一级
     back () {
-      this.$router.go(-1)
+      this.handlesearchFocus = false
+      // this.$router.go(-1)
+      this.$router.push('/Little_evil_fish_music/search')
     },
     // 切换videotab
     linkTo (link) {
@@ -334,6 +344,7 @@ export default {
   width: 70%;
   position: absolute;
   z-index: 999;
+
   ul {
     line-height: 2.5rem;
     box-shadow: #c9c9c9 0px 0px 10px; //将h-shadow,v-shadow设为0px,实现四周阴影
@@ -344,7 +355,7 @@ export default {
       border-bottom: 0;
       background: white;
       display: flex;
-      align-content: space-between;
+      align-content: center;
       align-items: center;
     }
 

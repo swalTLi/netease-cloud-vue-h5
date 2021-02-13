@@ -25,8 +25,8 @@
       <transition name="fade">
         <div class="main-box">
           <van-swipe class="my-swipe" :width="160" :show-indicators="false" :loop="false">
-            <van-swipe-item class="for" v-for="(box,index) in data.extInfo" :key="index">
-              <font size="1" class="play-number">
+            <van-swipe-item class="for" v-for="(box,index) in data.extInfo" :key="index" v-show="box.resource.mlogExtVO.song" >
+              <font size="1" class="play-number" v-if="box.resource.mlogExtVO.playCount">
                 {{
                   box.resource.mlogExtVO.playCount > 10000 ?
                     box.resource.mlogExtVO.playCount > 100000000 ?
@@ -44,7 +44,7 @@
                   <use xlink:href="#icon-bofang2"></use>
                 </svg>
               </div>
-              <img class="HOMEPAGE_MUSIC_MLOG-img" :src="box.resource.mlogExtVO.song.coverUrl" alt="">
+              <img class="HOMEPAGE_MUSIC_MLOG-img" v-if="box.resource.mlogExtVO.song"  :src="box.resource.mlogExtVO.song.coverUrl" alt="">
               <div class="playlist-name">
                 <font size="1">{{ box.resource.mlogBaseData.text }}</font>
               </div>
