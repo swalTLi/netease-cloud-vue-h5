@@ -1,13 +1,16 @@
 <template>
   <div>
-    <div class="singlePage">
+    <div v-if="!singles.songs">
+      由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
+    </div>
+    <div class="singlePage" v-if="singles.songs">
       <div class="playAll">
         <svg class="icon" aria-hidden="true">
           <use xlink:href="#icon-bofang2"></use>
         </svg>
         <span>播放全部</span>
       </div>
-      <div class="lists" v-if="singles.songs">
+      <div class="lists">
         <ul>
           <li v-for="(item,index) in singles.songs" :key="index">
             <div>
@@ -30,16 +33,10 @@
         </ul>
       </div>
     </div>
-    <div v-if="!singles.songs">
-      您搜索的内容不存在!
-    </div>
   </div>
 </template>
 
 <script>
-import { localStorage } from '@/common/localStorage'
-import { api as API } from '@/api/api'
-import img1 from '@/assets/image/ey24.png'
 
 export default {
   name: 'single',
@@ -48,66 +45,27 @@ export default {
       result: ''
     }
   },
+  updated () {
+    // console.log(this.singles)
+  },
   mounted () {
-    console.log(this.singles)
-    if (this.singles.songs) {
-      this.singles.songs.forEach(item => {
-        // console.log(item.name, item)
-      })
-    } else {
-      console.log('失败')
-    }
+    // console.log(this.singles)
   },
   methods: {
-    start (key, type, offset) {
-      const toast = this.$toast({
-        message: '加载数据中',
-        forbidClick: true,
-        icon: img1
-      })
-      var name = 'getSearchResult' +
-        '单曲' +
-        this.$route.query.key
-      if (!localStorage('getItem', name)) {
-        API.search.getSearchResult(key, type, offset).then(res => {
-          // console.log(res.data.result)
-          localStorage('setItem', name, res.data.result)
-          this.result = res.data.result
-          this.data = this.result
-          toast.clear()
-          this.$forceUpdate()
-        }).catch(e => {
-        })
-      } else {
-        this.result = localStorage('getItem', name)
-        this.data = this.result
-        toast.clear()
-        this.$forceUpdate()
-      }
-    }
   },
   props: ['singles'],
   watch: {
-    single (newV, oldV) {
-      console.log(newV, oldV)
-    },
-    '$route.query.key' (newV, oldV) {
-      // console.log(newV, oldV)
-      // API.search.getSearchResult(this.$route.query.key).then(res => {
-      //   console.log(res)
-      // })
-      // this.$forceUpdate()
-      console.log(newV)
-      // 加载中...
-      this.start(newV, 1)
-    }
+  },
+  errorCaptured (err, vm, info) {
+    console.log(`cat EC: ${err.toString()}\ninfo: ${info}`)
+    return false
   }
 }
 </script>
 <style scoped lang="less">
 .singlePage {
   width: 100%;
-  height: 83vh;
+  max-height: 83vh;
   //background: sienna;
   overflow-y: scroll;
   overflow-x:hidden;
@@ -128,6 +86,9 @@ export default {
     span {
       font-size: 17px;
       font-weight: bold;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 

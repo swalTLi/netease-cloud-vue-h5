@@ -78,12 +78,13 @@ export default {
     }
   },
   mounted () {
-    this.active = this.route[this.$route.fullPath.split('/')[2]]
+    this.active = this.route[this.$route.path.split('/').pop()]
   },
   watch: {
     // 改变激活状态
     '$route.fullPath' (newV, oldV) {
-      this.active = this.route[newV.split('?')[0].split('/')[2]]
+      this.active = this.route[this.$route.path.split('/').pop()]
+      console.log()
     }
   }
 }

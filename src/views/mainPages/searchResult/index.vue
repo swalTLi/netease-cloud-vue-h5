@@ -4,27 +4,27 @@
       <van-tab v-for="(item,index) in searchRules"
                :title="item.title"
                :key="index"
-               :disabled="disabled[item.title]">
-      <!--        单曲-->
-        <single v-if="active===0" :singles="result"/>
-        <!--        专辑-->
-        <Album v-else-if="active===1" :single="result"/>
-        <!--        歌手-->
-        <singer v-else-if="active===2" :single="result"/>
-        <!--        歌单-->
-        <song-list v-else-if="active===3" :single="result"/>
-        <!--        用户-->
-        <user v-else-if="active===4" :single="result"/>
-        <!--        MV-->
-        <MV v-else-if="active===5" :single="result"/>
-        <!--        歌词-->
-        <lyrics v-else-if="active===6" :single="result"/>
-        <!--        电台-->
-        <Radio v-else-if="active===7" :single="result"/>
-        <!--        视频-->
-        <Video v-else-if="active===8" :single="result"/>
+               :disabled="item.show">
         <!--        综合-->
-        <Synthesis v-else-if="active===9" :single="result"/>
+        <synthesis v-if="active===0" :synthesis="result"/>
+        <!--        单曲-->
+        <single v-else-if="active===1" :singles="result"/>
+        <!--        专辑-->
+        <Album v-else-if="active===2" :album="result"/>
+        <!--        歌手-->
+        <singer v-else-if="active===3" :singers="result"/>
+        <!--        歌单-->
+        <song-list v-else-if="active===4" :songlist="result"/>
+        <!--        用户-->
+        <user v-else-if="active===5" :user="result"/>
+        <!--        MV-->
+        <MV v-else-if="active===6" :MV="result"/>
+        <!--        歌词-->
+        <lyrics v-else-if="active===7" :lyrics="result"/>
+        <!--        电台-->
+        <Radio v-else-if="active===8" :radio="result"/>
+        <!--        视频-->
+        <Video v-else-if="active===9" :videos="result"/>
       </van-tab>
     </van-tabs>
   </div>
@@ -41,54 +41,62 @@ import MV from '@/components/searchResult/MV'
 import Lyrics from '@/components/searchResult/lyrics'
 import Radio from '@/components/searchResult/Radio'
 import Video from '@/components/searchResult/video'
-import Synthesis from '@/components/searchResult/Synthesis'
+import synthesis from '@/components/searchResult/synthesis'
+import img1 from '@/assets/image/ey24.png'
 
 export default {
   name: 'index',
-  components: { Synthesis, Video, Radio, Lyrics, MV, User, SongList, Singer, Album, Single },
+  components: { synthesis, Video, Radio, Lyrics, MV, User, SongList, Singer, Album, Single },
   data () {
     return {
+      timeKey: '',
       active: 0,
       searchRules: [
-        { title: '单曲', type: 1 },
-        { title: '专辑', type: 10 },
-        { title: '歌手', type: 100 },
-        { title: '歌单', type: 1000 },
-        { title: '用户', type: 1002 },
-        { title: 'MV', type: 1004 },
-        { title: '歌词', type: 1006 },
-        { title: '电台', type: 1009 },
-        { title: '视频', type: 1014 },
-        { title: '综合', type: 1018 }
+        { title: '综合', type: 1018, show: false },
+        { title: '单曲', type: 1, show: false },
+        { title: '专辑', type: 10, show: false },
+        { title: '歌手', type: 100, show: false },
+        { title: '歌单', type: 1000, show: false },
+        { title: '用户', type: 1002, show: false },
+        { title: 'MV', type: 1004, show: true },
+        { title: '歌词', type: 1006, show: false },
+        { title: '电台', type: 1009, show: true },
+        { title: '视频', type: 1014, show: false }
       ],
-      disabled: {
-        单曲: false,
-        专辑: true,
-        歌手: false,
-        歌单: false
-      },
       result: ''
     }
   },
   mounted () {
+    var data = new Date()
+    this.timeKey = data.getTime()
+    // 加载上次浏览标签
+    this.active = Number(window.sessionStorage.getItem('active'))
     this.start(this.$route.query.key, this.searchRules[this.active].type)
   },
   methods: {
     // 界面初始化函数
-    start (key, type, offset) {
+    start (key = this.$route.query.key, type = this.searchRules[this.active].type, offset) {
+      const toast = this.$toast({
+        message: '加载数据中',
+        forbidClick: true,
+        icon: img1
+      })
       var name = 'getSearchResult' + this.searchRules[this.active].title + this.$route.query.key
       if (!localStorage('getItem', name)) {
         API.search.getSearchResult(key, type, offset).then(res => {
           // console.log(res.data.result)
           localStorage('setItem', name, res.data.result)
           this.result = res.data.result
+          toast.clear()
           this.$forceUpdate()
         }).catch(e => {
         })
       } else {
         this.result = localStorage('getItem', name)
+        toast.clear()
         this.$forceUpdate()
       }
+      // console.log(this.result)
     }
   },
   watch: {
@@ -98,17 +106,23 @@ export default {
       //   console.log(res)
       // })
       console.log(newV, this.searchRules[this.active].type)
-      this.$forceUpdate()
       this.start(newV, this.searchRules[this.active].type)
+      var data = new Date()
+      this.timeKey = data.getTime()
+      this.$forceUpdate()
     },
     active (newV, oldV) {
       // console.log(newV, oldV)
       // 响应滑动事件
       this.start(this.$route.query.key, this.searchRules[newV].type)
+      var data = new Date()
+      this.timeKey = data.getTime()
+      // 保存浏览标签
+      window.sessionStorage.setItem('active', this.active)
     },
     result (newV, oldV) {
       this.$forceUpdate()
-      console.log('result', newV, oldV)
+      // console.log('result', newV, oldV)
     }
   }
 }

@@ -120,6 +120,10 @@ export default {
           }
         }).catch(e => {
           console.log(e)
+          this.$toast({
+            message: '登录失败,服务器未连接,请稍后重试',
+            icon: 'https://www.easyicon.net/api/resizeApi.php?id=1284842&size=96'
+          })
         })
       }
     },

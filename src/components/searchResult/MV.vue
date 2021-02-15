@@ -12,13 +12,18 @@ export default {
 
     }
   },
+  updated () {
+    console.log(this.MV)
+  },
   mounted () {
-    console.log(this.data)
+    console.log(this.MV)
   },
   methods: {
 
   },
-  props: ['data']
+  props: ['MV'],
+  watch: {
+  }
 }
 </script>
 

@@ -335,7 +335,8 @@ export default {
   }
 
   /deep/ .van-tabs__line {
-    background: linear-gradient(to right, seagreen, mediumseagreen);
+    background: linear-gradient(to right,
+    seagreen, mediumseagreen);
   }
 }
 
