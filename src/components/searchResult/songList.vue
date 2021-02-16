@@ -1,11 +1,8 @@
 <template>
   <div>
-    <div v-if="!songlist.playlists">
-      由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
-    </div>
-    <div class="singerPage">
+    <div class="singerPage" v-if="songlist.playlists ||songlist.playLists">
       <ul>
-        <li v-for="(item,index) in songlist.playlists" :key="index">
+        <li v-for="(item,index) in songlist.playlists || songlist.playLists" :key="index">
           <div class="left" >
             <img :src="item.coverImgUrl" alt="">
             <span>{{item.name}}</span>
@@ -19,22 +16,24 @@
         </li>
       </ul>
     </div>
+    <div v-else>
+      由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
+    </div>
   </div>
 </template>
 
 <script>
+
 export default {
-  name: 'singer',
+  name: 'songList',
   data () {
     return {
       result: ''
     }
   },
   updated () {
-    console.log(this.songlist)
   },
   mounted () {
-    console.log(this.songlist)
   },
   methods: {
   },

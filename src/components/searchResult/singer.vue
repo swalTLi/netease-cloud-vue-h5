@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div v-if="!singers">
-      由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
-    </div>
-    <div class="singerPage">
+    <div class="singerPage" v-if="singers.artists">
       <ul>
         <li v-for="(item,index) in singers.artists" :key="index">
           <div class="left" >
@@ -18,6 +15,9 @@
         </li>
       </ul>
     </div>
+    <div v-else>
+      由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
+    </div>
   </div>
 </template>
 
@@ -31,10 +31,10 @@ export default {
     }
   },
   updated () {
-    console.log(this.singers)
+    // console.log(this.singers)
   },
   mounted () {
-    console.log(this.singers)
+    // console.log(this.singers)
   },
   methods: {
   },

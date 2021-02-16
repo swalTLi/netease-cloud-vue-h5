@@ -8,7 +8,7 @@
         <!--        综合-->
         <synthesis v-if="active===0" :synthesis="result"/>
         <!--        单曲-->
-        <single v-else-if="active===1" :singles="result"/>
+        <single v-else-if="active===1" :singles="result" :key="timeKey"/>
         <!--        专辑-->
         <Album v-else-if="active===2" :album="result"/>
         <!--        歌手-->
@@ -24,7 +24,7 @@
         <!--        电台-->
         <Radio v-else-if="active===8" :radio="result"/>
         <!--        视频-->
-        <Video v-else-if="active===9" :videos="result"/>
+        <Video v-else-if="active===9" :videos="result" :key="timeKey"/>
       </van-tab>
     </van-tabs>
   </div>
@@ -71,6 +71,7 @@ export default {
     this.timeKey = data.getTime()
     // 加载上次浏览标签
     this.active = Number(window.sessionStorage.getItem('active'))
+    window.sessionStorage.setItem('active', this.active)
     this.start(this.$route.query.key, this.searchRules[this.active].type)
   },
   methods: {
@@ -87,14 +88,29 @@ export default {
           // console.log(res.data.result)
           localStorage('setItem', name, res.data.result)
           this.result = res.data.result
+          console.log(res.data.result)
           toast.clear()
           this.$forceUpdate()
         }).catch(e => {
         })
       } else {
-        this.result = localStorage('getItem', name)
+        if (this.active === 0) {
+          // 处理 综合标签数据
+          var res = localStorage('getItem', name)
+          // 处理video标签 变成双数
+          if (res.video.videos.length % 2 === 1) {
+            res.video.videos.pop()
+          }
+          // 处理歌曲标签 变成5个
+          // console.log(res.song.songs.length = 5)
+          this.result = res
+        } else {
+          this.result = localStorage('getItem', name)
+        }
         toast.clear()
         this.$forceUpdate()
+        var data = new Date()
+        this.timeKey = data.getTime()
       }
       // console.log(this.result)
     }
@@ -105,7 +121,7 @@ export default {
       // API.search.getSearchResult(this.$route.query.key).then(res => {
       //   console.log(res)
       // })
-      console.log(newV, this.searchRules[this.active].type)
+      // console.log(newV, this.searchRules[this.active].type)
       this.start(newV, this.searchRules[this.active].type)
       var data = new Date()
       this.timeKey = data.getTime()

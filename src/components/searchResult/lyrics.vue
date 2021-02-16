@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div v-if="!lyrics.songs">
-      由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
-    </div>
-    <div class="singerPage">
+    <div class="singerPage" v-if="lyrics.songs">
       <ul>
         <li v-for="(item,index) in lyrics.songs" :key="index">
           <div class="left">
@@ -21,6 +18,9 @@
           </van-button>
         </li>
       </ul>
+    </div>
+    <div v-else>
+      由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
     </div>
   </div>
 </template>

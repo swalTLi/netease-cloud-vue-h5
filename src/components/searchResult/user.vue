@@ -1,9 +1,6 @@
 <template>
   <div>
-    <div v-if="!user.userprofiles">
-      由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
-    </div>
-    <div class="singerPage">
+    <div class="singerPage" v-if="user.userprofiles || user.users">
       <ul>
         <li v-for="(item,index) in user.userprofiles" :key="index">
           <div class="left" >
@@ -31,6 +28,9 @@
         </li>
       </ul>
     </div>
+    <div v-else>
+      由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
+    </div>
   </div>
 </template>
 
@@ -44,10 +44,10 @@ export default {
     }
   },
   updated () {
-    console.log(this.user)
+    // console.log(this.user)
   },
   mounted () {
-    console.log(this.user)
+    // console.log(this.user)
   },
   methods: {},
   props: ['user'],

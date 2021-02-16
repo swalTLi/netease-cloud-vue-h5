@@ -1,7 +1,7 @@
 <template>
   <div>
 <!--    点击跳转抖音内容-->
-    <div class="mains">
+    <div class="mains" v-if="videos.videos">
       <div class="box"
            v-for="(item,index) in videos.videos"
            :key="index">
@@ -10,6 +10,9 @@
           <span>{{ '#' + item.title }}</span>
         </div>
       </div>
+    </div>
+    <div v-else>
+      由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
     </div>
   </div>
 </template>
@@ -26,26 +29,21 @@ export default {
     }
   },
   updated () {
-    if (this.videos.videos.length % 2 === 1) {
-      this.videos.videos.length = this.videos.videos.length - 1
-    }
   },
   mounted () {
     try {
       if (this.videos.videos.length % 2 === 1) {
-        this.videos.videos.length = this.videos.videos.length - 1
+        this.videos.videos.pop()
       }
+      // console.log(window.sessionStorage.getItem('active'))
       if (window.sessionStorage.getItem('active') === '0') {
         document.querySelector('.mains').style.background = 'white'
         document.querySelectorAll('.box').forEach(item => {
           item.style.background = '#eaeaea'
         })
       }
-      // console.log(this.videos.videos.length)
       this.$forceUpdate()
-    } catch (e) {
-
-    }
+    } catch (e) {}
   },
   methods: {},
   props: ['videos'],

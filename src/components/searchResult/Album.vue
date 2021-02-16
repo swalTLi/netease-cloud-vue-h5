@@ -1,11 +1,8 @@
 <template>
   <div>
-    <div v-if="!album.albums">
-      由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
-    </div>
-    <div class="singerPage">
+    <div class="singerPage" v-if="album.albums">
       <ul>
-        <li v-for="(item,index) in album.albums" :key="index">
+        <li v-for="(item,index) in album.albums" :key="index" @click="clickAlbum(index)">
           <img :src="item.picUrl" alt="">
           <div class="left" >
             <span>{{item.name}}</span>
@@ -20,24 +17,31 @@
         </li>
       </ul>
     </div>
+    <div v-else>
+      由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
+    </div>
   </div>
 </template>
 
 <script>
+
 export default {
   name: 'Album',
   data () {
     return {
-      result: ''
+      result: '',
+      err: ''
     }
   },
   updated () {
-    // console.log(this.album)
   },
   mounted () {
-    // console.log(this.album)
   },
   methods: {
+
+    clickAlbum (index) {
+      console.log(index)
+    }
   },
   props: ['album'],
   watch: {

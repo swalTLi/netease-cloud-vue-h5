@@ -1,8 +1,5 @@
 <template>
   <div>
-    <div v-if="!singles.songs">
-      由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
-    </div>
     <div class="singlePage" v-if="singles.songs">
       <div class="playAll">
         <svg class="icon" aria-hidden="true">
@@ -33,6 +30,9 @@
         </ul>
       </div>
     </div>
+    <div v-else>
+      由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
+    </div>
   </div>
 </template>
 
@@ -46,10 +46,8 @@ export default {
     }
   },
   updated () {
-    // console.log(this.singles)
   },
   mounted () {
-    // console.log(this.singles)
   },
   methods: {
   },
