@@ -12,7 +12,7 @@ export default {
     // eslint-disable-next-line no-undef
     return axios({
       method: 'get',
-      url: 'video/group/list',
+      url: 'video/group/list' + '&cookie=' + window.localStorage.getItem('cookie'),
       withCredentials: true
     })
   },
@@ -48,7 +48,7 @@ export default {
     // eslint-disable-next-line no-undef
     return axios({
       method: 'get',
-      url: '/video/group?id=' + id + '&offset=' + offset,
+      url: '/video/group?id=' + id + '&offset=' + offset + '&cookie=' + window.localStorage.getItem('cookie'),
       // + '&cookie=' + window.localStorage.getItem('cookie'),
       withCredentials: true
     })
@@ -66,7 +66,7 @@ export default {
     // eslint-disable-next-line no-undef
     return axios({
       method: 'get',
-      url: '/video/timeline/all',
+      url: '/video/timeline/all' + '&cookie=' + window.localStorage.getItem('cookie'),
       withCredentials: true
     })
   },
