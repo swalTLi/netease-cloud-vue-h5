@@ -56,21 +56,22 @@ export default {
   methods: {
     start () {
       if (!localStorage('getItem', 'get_video_category_list')) {
-        API.video.get_video_category_list().then(res => {
-          // console.log(res)
-          res.data.data.forEach((item, index) => {
-            if (item.name === 'MV') {
-              // console.log('mv')
-              res.data.data.splice(index, 1)
-            }
-            return true
+        API.video.get_video_category_list()
+          .then(res => {
+            // console.log(res)
+            res.data.data.forEach((item, index) => {
+              if (item.name === 'MV') {
+                // console.log('mv')
+                res.data.data.splice(index, 1)
+              }
+              return true
+            })
+            this.list = res.data.data
+            localStorage('setItem', 'get_video_category_list', res.data.data, 10000 * 60 * 60)
+            this.getTabVideo(this.active)
+          }).catch((e) => {
+            console.log(e)
           })
-          this.list = res.data.data
-          localStorage('setItem', 'get_video_category_list', res.data.data, 10000 * 60 * 60)
-          this.getTabVideo(this.active)
-        }).catch((e) => {
-          console.log(e)
-        })
       } else {
         this.list = localStorage('getItem', 'get_video_category_list')
         // console.log(this.list)

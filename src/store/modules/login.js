@@ -21,15 +21,19 @@ export const loginVuex = {
       state.UserInformation = payload
     },
     // 退出登录
-    loginOut:
-      (state) => {
-        state.isLogin = false
-      }
+    loginOut: (state) => {
+      state.isLogin = false
+      state.UserInformation = ''
+    }
   },
   actions: {
     // 登陆成功
     loginSuccess: (context, data) => {
       context.commit('loginSuccess', { UserInformation: data.res })
+    },
+    // 退出登录
+    loginOut: (context, data) => {
+      context.commit('loginOut')
     }
   }
 }

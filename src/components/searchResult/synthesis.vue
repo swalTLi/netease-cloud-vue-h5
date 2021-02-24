@@ -47,9 +47,8 @@
         </div>
         <user v-if="synthesis.user" :user="synthesis.user"/>
       </div>
-
     </transition>
-    <div style="width: 100vw;height: 10vw"></div>
+    <div style="width: 100vw;height: 20vw"></div>
   </div>
 </template>
 
@@ -77,10 +76,12 @@ export default {
     this.$nextTick(() => {
       // 在 DOM 中添加 my-component 组件
       // video
-      if (this.synthesis.video.videos.length % 2 === 1) {
-        this.synthesis.video.videos.length = this.synthesis.video.videos.length - 1
-        this.time = data.getTime()
-        this.$forceUpdate()
+      if (this.synthesis.video.videos) {
+        if (this.synthesis.video.videos.length % 2 === 1) {
+          this.synthesis.video.videos.length = this.synthesis.video.videos.length - 1
+          this.time = data.getTime()
+          this.$forceUpdate()
+        }
       }
       // 单曲
       this.synthesis.song.songs.length = 5

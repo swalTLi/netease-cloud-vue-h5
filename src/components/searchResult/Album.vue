@@ -64,7 +64,7 @@ export default {
     li{
       margin-top: 1vh;
       width: 94vw;
-      padding: 0 3%;
+      padding: 10px 3%;
       height: 8vh;
       display: flex;
       justify-content: space-between;
@@ -91,6 +91,7 @@ export default {
         }
       }
       .van-button{
+        width: 22%;
         display: flex;
         flex-wrap: wrap;
         justify-content: center;

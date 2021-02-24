@@ -15,7 +15,7 @@
                 ||searchType==='find'
                 ||searchType==='mine'
 ">
-        <svg class="icon" aria-hidden="true" @click="openSidebar">
+        <svg class="icon" aria-hidden="true" @click="clickLeftBtn('open')">
           <use xlink:href="#icon-gengduo2"></use>
         </svg>
       </template>
@@ -82,7 +82,7 @@
                 ||searchType==='find'
                 ||searchType==='mine'
 ">
-        <svg class="icon" aria-hidden="true" @click="clickHelpBtn">
+        <svg class="icon" aria-hidden="true" @click="clickRightBtn">
           <use xlink:href="#icon-wenjuantiaocha"></use>
         </svg>
       </template>
@@ -102,7 +102,9 @@
         <li v-show="searchKey" @click.self="handleLiClick()">
           {{ '搜索 ' + '"' + searchKey + '"' }}
         </li>
-        <li v-for="(item,index) in  KeyWordsAssociation" :key="index" @click="handleLiClick(item.keyword)">
+        <li v-for="(item,index) in  KeyWordsAssociation"
+            :key="index"
+            @click="handleLiClick(item.keyword)">
           <svg class="icon" aria-hidden="true">
             <use :xlink:href="'#icon-Search'+index"></use>
           </svg>
@@ -110,17 +112,32 @@
         </li>
       </ul>
     </div>
+    <van-dialog v-model="leftBtn" title="退出登录"
+                show-cancel-button
+                @cancel="clickLeftBtn('close')"
+                @confirm="clickLeftBtn('clear')">
+      <div>
+        <span style="font-size: 12px">
+        退出登录并清空所有缓存？
+        </span>
+        <van-switch size="18px" v-model="checked"/>
+      </div>
+    </van-dialog>
   </div>
 </template>
 
 <script>
 import { api as API } from '@/api/api'
 import { localStorage } from '@/common/localStorage'
+import { createNamespacedHelpers } from 'vuex'
 
+const { mapState, mapGetters, mapMutations, mapActions } = createNamespacedHelpers('loginVuex')
 export default {
   name: 'index',
   data () {
     return {
+      checked: true,
+      leftBtn: false,
       active: 0,
       searchKey: '',
       searchType: '',
@@ -145,6 +162,13 @@ export default {
       handlesearchFocus: false
     }
   },
+  computed: {
+    ...mapState([
+      'isLogin',
+      'UserInformation'
+    ]),
+    ...mapGetters({})
+  },
   mounted () {
     // 分解出当前url的关键字段
     var url = this.$route.fullPath.split('?')[0]
@@ -160,6 +184,11 @@ export default {
     // console.log(encodeURI(this.$route.fullPath.split('?')[1]))
   },
   methods: {
+    ...mapMutations({}),
+    ...mapActions({
+      loginSuccess: 'loginSuccess',
+      loginOut: 'loginOut'
+    }),
     // 失去焦点事件
     blur (e) {
       setTimeout(() => {
@@ -244,12 +273,13 @@ export default {
       })
     },
     // 点击页头右侧按钮
-    clickHelpBtn () {
+    clickRightBtn () {
       this.$dialog.alert({
         title: '免责声明！',
         message: '👮‍♂️本软件仅供学习前端技术使用，不可用于商业行为！请使用者在看完源代码学会后，删除本软件，谢谢您！💋\n保护版权，人人有责',
         confirmButtonColor: 'linear-gradient(to right, seagreen, mediumseagreen)',
-        theme: 'round-button'
+        theme: 'round-button',
+        confirmButtonText: '我已了解！'
       }).then(() => {
         // on close
       })
@@ -263,7 +293,64 @@ export default {
       }
     },
     // 页头tab左侧按钮点击事件
-    openSidebar () {
+    clickLeftBtn (type) {
+      console.log(type)
+      // 清空数据代码
+      var clearAllCookie = () => {
+        console.log(this.checked)
+        if (!this.checked) {
+          return this.$router.push({ path: '/login' })
+        }
+        this.t = '正在清空localStorage...'
+        this.$toast({
+          message: this.t,
+          icon: 'https://www.easyicon.net/api/resizeApi.php?id=1284842&size=96'
+        })
+        window.localStorage.clear()
+        setTimeout(() => {
+          this.t = '正在清空session...'
+          this.$toast({
+            message: this.t,
+            icon: 'https://www.easyicon.net/api/resizeApi.php?id=1284842&size=96'
+          })
+          // 清空 vuex
+          this.loginOut()
+          window.sessionStorage.clear()
+        }, 1000)
+        setTimeout(() => {
+          this.t = '正在清空cookie...'
+          this.$toast({
+            message: this.t,
+            icon: 'https://www.easyicon.net/api/resizeApi.php?id=1284842&size=96'
+          })
+          var date = new Date()
+          date.setTime(date.getTime() - 10000)
+          var keys = document.cookie.match(/[^ =;]+(?==)/g)
+          // console.log('需要删除的cookie名字：' + keys)
+          if (keys) {
+            for (var i = keys.length; i--;) {
+              document.cookie = keys[i] + '=; expire=' + date.toGMTString() + '; path=/'
+            }
+          }
+        }, 1000)
+        // 前往首页
+        setTimeout(() => {
+          this.$router.push({ path: '/login' })
+        }, 2000)
+      }
+      // 打开弹出框
+      var typeOpen = () => {
+        this.leftBtn = true
+      }
+      // 关闭弹出框
+      var typeClose = () => {
+        this.leftBtn = false
+      }
+      // eslint-disable-next-line no-unused-expressions
+      type === 'open' ? typeOpen()
+        : type === 'close' ? typeClose()
+          : type === 'clear' ? clearAllCookie() : 1
+      // console.log(document.cookie)
     },
     // 默认搜索推荐
     searchDefaultKey () {
@@ -367,6 +454,17 @@ export default {
     li:last-child {
       border-bottom: 0.1rem solid #e0e0e0;
     }
+  }
+}
+
+.van-dialog {
+  div {
+    margin-top: 5vw;
+    margin-bottom: 5vw;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center
   }
 }
 </style>

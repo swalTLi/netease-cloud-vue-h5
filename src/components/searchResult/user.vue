@@ -2,7 +2,8 @@
   <div>
     <div class="singerPage" v-if="user.userprofiles || user.users">
       <ul>
-        <li v-for="(item,index) in user.userprofiles" :key="index">
+        <li v-for="(item,index) in user.userprofiles" :key="index"
+            @click="lookUserInfo(item)">
           <div class="left" >
             <img :src="item.avatarUrl" alt="">
             <span>{{item.nickname}}</span>
@@ -10,11 +11,13 @@
           <van-button
             size="mini"
             color="mediumseagreen"
+            @click.stop="lookUserInfo(item)"
             type="primary">
             查看用户
           </van-button>
         </li>
-        <li v-for="(item,index) in user.users" :key="index">
+        <li v-for="(item,index) in user.users" :key="index"
+            @click="lookUserInfo(item)">
           <div class="left" >
             <img :src="item.avatarUrl" alt="">
             <span>{{item.nickname}}</span>
@@ -22,6 +25,7 @@
           <van-button
             size="mini"
             color="mediumseagreen"
+            @click.stop="lookUserInfo(item)"
             type="primary">
             查看用户
           </van-button>
@@ -49,7 +53,11 @@ export default {
   mounted () {
     // console.log(this.user)
   },
-  methods: {},
+  methods: {
+    lookUserInfo (item) {
+      console.log(item)
+    }
+  },
   props: ['user'],
   watch: {
   }
@@ -71,7 +79,7 @@ export default {
     li{
       margin-top: 1vh;
       width: 94vw;
-      padding: 0 3%;
+      padding: 10px 3%;
       height: 8vh;
       display: flex;
       justify-content: space-between;

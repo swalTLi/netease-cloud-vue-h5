@@ -9,7 +9,7 @@
       </div>
       <div class="lists">
         <ul>
-          <li v-for="(item,index) in singles.songs" :key="index">
+          <li v-for="(item,index) in singles.songs" :key="index" @click="gotoMusicPlayPage(item)">
             <div>
               <div class="top">
               <span v-if="item.name">
@@ -50,6 +50,10 @@ export default {
   mounted () {
   },
   methods: {
+    gotoMusicPlayPage (item) {
+      console.log(item.name)
+      console.log(item)
+    }
   },
   props: ['singles'],
   watch: {

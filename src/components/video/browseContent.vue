@@ -22,7 +22,6 @@
       </div>
       <div class="video" v-if="item.data.creator">
         <!--        {{ item.vidUrl }}-->
-
         <picture v-show="!item.play">
           <source :srcset="item.data.previewUrl" type="image/webp">
           <source type="image/jpeg"
@@ -54,6 +53,7 @@
 <script>
 // import VideoBox from './videoBox'
 import { api as API } from '../../api/api'
+
 export default {
   name: 'browseContent',
   // components: { VideoBox },
@@ -123,7 +123,7 @@ export default {
       }
       this.videoData[index].play = true
       this.nowVideoVid = this.videoData[index].data.vid
-      document.getElementById(item.vid).play()
+      this.$forceUpdate()
       API.video.get_video_url(this.videoData[index].data.vid).then(res => {
         this.$forceUpdate()
         this.videoData[index].vidUrl = res.data.urls[0].url
@@ -135,6 +135,7 @@ export default {
         this.lastVideoVid = this.videoData[index].vid
         this.lastIndex = index
       })
+      document.getElementById(item.vid).play()
     }
   },
   updated () {
@@ -214,10 +215,12 @@ export default {
       flex-wrap: wrap;
       justify-content: center;
       align-items: center;
+
       .icon {
         font-size: 50px;
         position: absolute;
       }
+
       picture {
         display: flex;
         justify-content: center;
@@ -229,7 +232,8 @@ export default {
         overflow: hidden;
 
       }
-      video{
+
+      video {
         width: 100vw;
         height: 56.25vw;
         overflow: hidden;
