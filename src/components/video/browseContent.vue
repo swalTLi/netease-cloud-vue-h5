@@ -135,7 +135,9 @@ export default {
         this.lastVideoVid = this.videoData[index].vid
         this.lastIndex = index
       })
-      document.getElementById(item.vid).play()
+      try {
+        document.getElementById(item.vid).play()
+      } catch (e) {}
     }
   },
   updated () {

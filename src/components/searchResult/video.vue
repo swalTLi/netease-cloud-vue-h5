@@ -1,17 +1,17 @@
 <template>
   <div>
-<!--    点击跳转抖音内容-->
+    <!--    点击跳转抖音内容-->
     <div class="mains" v-if="videos.videos">
       <div class="box"
            v-for="(item,index) in videos.videos"
            :key="index">
-        <img :src="item.coverUrl" alt="">
+        <img :src="item.coverUrl || item.imgurl16v9" alt="">
         <div class="info">
-          <span>{{ '#' + item.title }}</span>
+          <span>#{{ item.name || item.title }}</span>
         </div>
       </div>
     </div>
-    <div v-else>
+    <div v-if="videos.videos.length === 0">
       由于网易云接口权限问题,暂无数据,请尝试搜索其他关键词,或者浏览其他标签
     </div>
   </div>
@@ -31,6 +31,7 @@ export default {
   updated () {
   },
   mounted () {
+    // console.log(this.videos.videos.length === 0)
     try {
       if (this.videos.videos.length % 2 === 1) {
         this.videos.videos.pop()
@@ -43,7 +44,8 @@ export default {
         })
       }
       this.$forceUpdate()
-    } catch (e) {}
+    } catch (e) {
+    }
   },
   methods: {},
   props: ['videos'],
@@ -52,15 +54,16 @@ export default {
 </script>
 
 <style scoped lang="less">
-.mains{
+.mains {
   display: flex;
   flex-wrap: wrap;
   width: 100%;
-  max-height: 83vh;
+  //max-height: 83vh;
   margin: auto;
   overflow-y: scroll;
   overflow-x: hidden;
   background: #eaeaea;
+
   .box {
     background: white;
     display: flex;
@@ -88,6 +91,7 @@ export default {
       margin-top: 3vw;
       overflow: hidden;
       text-overflow: ellipsis;
+
       span {
         font-size: 12px;
         display: inline-block;

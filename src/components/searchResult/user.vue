@@ -55,7 +55,19 @@ export default {
   },
   methods: {
     lookUserInfo (item) {
-      console.log(item)
+      this.$router.push({
+        name: 'userInfo',
+        params: {
+          data: item
+        },
+        query: {
+          nickname: item.nickname,
+          id: item.userId,
+          type: 0,
+          backgroundUrl: item.backgroundUrl,
+          avatarUrl: item.avatarUrl
+        }
+      })
     }
   },
   props: ['user'],

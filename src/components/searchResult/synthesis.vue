@@ -76,11 +76,13 @@ export default {
     this.$nextTick(() => {
       // 在 DOM 中添加 my-component 组件
       // video
-      if (this.synthesis.video.videos) {
-        if (this.synthesis.video.videos.length % 2 === 1) {
-          this.synthesis.video.videos.length = this.synthesis.video.videos.length - 1
-          this.time = data.getTime()
-          this.$forceUpdate()
+      if (this.synthesis.video) {
+        if (this.synthesis.video.videos) {
+          if (this.synthesis.video.videos.length % 2 === 1) {
+            this.synthesis.video.videos.length = this.synthesis.video.videos.length - 1
+            this.time = data.getTime()
+            this.$forceUpdate()
+          }
         }
       }
       // 单曲
@@ -127,6 +129,7 @@ export default {
 
   .single {
     max-height: 120vw;
+    overflow: hidden;
     background: white;
   }
 

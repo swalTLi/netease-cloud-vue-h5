@@ -41,7 +41,19 @@ export default {
   },
   methods: {
     lookSingerInfo (item) {
-      console.log(item)
+      this.$router.push({
+        name: 'singerInfo',
+        params: {
+          data: item
+        },
+        query: {
+          nickname: item.name,
+          id: item.id,
+          type: 1,
+          img1v1Url: item.img1v1Url,
+          picUrl: item.picUrl
+        }
+      })
     }
   },
   props: ['singers'],
@@ -82,8 +94,8 @@ export default {
         align-content: center;
 
         img {
-          width: 50px;
-          height: 50px;
+          width: 50px;          height: 50px;
+
           border-radius: 100%;
         }
 

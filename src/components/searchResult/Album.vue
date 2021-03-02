@@ -36,6 +36,7 @@ export default {
   updated () {
   },
   mounted () {
+    console.log(this.album)
   },
   methods: {
 
@@ -51,7 +52,7 @@ export default {
 <style scoped lang="less">
 .singerPage {
   width: 100%;
-  max-height: 83vh;
+  //max-height: 83vh;
   //background: sienna;
   overflow-y: scroll;
   overflow-x: hidden;

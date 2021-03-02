@@ -2,11 +2,14 @@ import login from '@/api/login'
 import search from '@/api/search'
 import find from '@/api/find'
 import video from '@/api/video'
+import media from '@/api/media'
+
 export const api = {
   login,
   search,
   find,
-  video
+  video,
+  media
 }
 
 // Request URL: http://www.lidaqing.plus:1901/video/category/list
