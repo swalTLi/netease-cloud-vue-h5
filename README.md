@@ -5,7 +5,14 @@
 
 #### 展示项目地址
 点击访问 [ 网易云模仿2-小鳄鱼音乐-自主设计界面-接口网易云的-vue-h5](http://www.lidaqing.plus:1011/)
-![输入图片说明](https://images.gitee.com/uploads/images/2021/0306/083431_40db9b33_5315867.jpeg "歌手详情.jpg")
+
+![登录](https://images.gitee.com/uploads/images/2021/0306/083759_0272bf9a_5315867.jpeg "登录.jpg")
+![支持视频浏览](https://images.gitee.com/uploads/images/2021/0306/083915_64b369b3_5315867.jpeg "支持视频浏览.jpg")
+![搜索功能](https://images.gitee.com/uploads/images/2021/0306/083903_7ab75521_5315867.jpeg "搜索功能.jpg")
+![推荐视频](https://images.gitee.com/uploads/images/2021/0306/083910_f53c038d_5315867.jpeg "推荐视频.jpg")
+![热搜历史记录](https://images.gitee.com/uploads/images/2021/0306/083851_6cce2edd_5315867.jpeg "热搜历史记录.jpg")
+![动态检索](https://images.gitee.com/uploads/images/2021/0306/083832_4d0fde5f_5315867.jpeg "动态检索.jpg")
+![歌手详情](https://images.gitee.com/uploads/images/2021/0306/083431_40db9b33_5315867.jpeg "歌手详情.jpg")
 
 #### 安装教程
 
