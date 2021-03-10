@@ -2,11 +2,11 @@
   <div>
     <div class="singerPage" v-if="album.albums">
       <ul>
-        <li v-for="(item,index) in album.albums" :key="index" @click="clickAlbum(index)">
+        <li v-for="(item,index) in album.albums" :key="index" @click="clickAlbum(item)">
           <img :src="item.picUrl" alt="">
-          <div class="left" >
-            <span>{{item.name}}</span>
-            <span>{{item.artists[0].name}}</span>
+          <div class="left">
+            <span>{{ item.name }}</span>
+            <span>{{ item.artists[0].name }}</span>
           </div>
           <van-button
             size="mini"
@@ -36,17 +36,38 @@ export default {
   updated () {
   },
   mounted () {
-    console.log(this.album)
+    // console.log(this.album)
   },
   methods: {
 
-    clickAlbum (index) {
-      console.log(index)
+    clickAlbum (item) {
+      console.log(item)
+      this.$router.push({
+        name: 'AlbumInfo',
+        params: {
+          data: item
+        },
+        query: {
+          type: '0',
+          typeInfo: '专辑',
+          // 专辑名称
+          albumName: item.name,
+          // 专辑id
+          albumID: item.id,
+          // 专辑背景
+          albumBackgroundUrl: item.picUrl,
+          // 作者名称
+          singerName: item.artists[0].name,
+          // 作者id
+          singerID: item.artists[0].id,
+          // 作者img
+          singerImage: item.artists[0].img1v1Url
+        }
+      })
     }
   },
   props: ['album'],
-  watch: {
-  }
+  watch: {}
 }
 </script>
 <style scoped lang="less">
@@ -56,13 +77,16 @@ export default {
   //background: sienna;
   overflow-y: scroll;
   overflow-x: hidden;
-  ul{
+
+  ul {
     display: flex;
     flex-wrap: wrap;
+
     li:active {
       background: #d7d7d7;
     }
-    li{
+
+    li {
       margin-top: 1vh;
       width: 94vw;
       padding: 10px 3%;
@@ -71,27 +95,31 @@ export default {
       justify-content: space-between;
       align-items: center;
       align-content: center;
-      img{
-        width:50px;
-        height:50px;
+
+      img {
+        width: 50px;
+        height: 50px;
         border-radius: 100%;
       }
-      .left{
+
+      .left {
         display: flex;
         flex-wrap: wrap;
         justify-content: start;
         align-items: center;
         align-content: center;
         width: 65%;
-        span{
-          padding-left:1rem ;
+
+        span {
+          padding-left: 1rem;
           font-size: 13px;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
       }
-      .van-button{
+
+      .van-button {
         width: 22%;
         display: flex;
         flex-wrap: wrap;

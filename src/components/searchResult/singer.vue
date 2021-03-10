@@ -49,7 +49,7 @@ export default {
         query: {
           nickname: item.name,
           id: item.id,
-          type: 1,
+          type: '1',
           img1v1Url: item.img1v1Url,
           picUrl: item.picUrl
         }

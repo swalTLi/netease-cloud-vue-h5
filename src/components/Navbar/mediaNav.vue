@@ -29,6 +29,7 @@ export default {
       show: false
     }
   },
+  props: ['isTrans'],
   mounted () {
     Bus.$on('vannavbar', res => {
       console.log(res)

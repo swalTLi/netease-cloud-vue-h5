@@ -28,6 +28,18 @@ export const media = [
         path: 'singerInfo',
         name: 'singerInfo',
         component: () => import(/* webpackChunkName: "about" */ '@/views/media/infoPage.vue')
+      },
+      // 专辑
+      {
+        path: 'AlbumInfo',
+        name: 'AlbumInfo',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/media/Album.vue')
+      },
+      //  歌单
+      {
+        path: 'songListInfo',
+        name: 'songListInfo',
+        component: () => import(/* webpackChunkName: "about" */ '@/views/media/songList.vue')
       }
     ]
   }

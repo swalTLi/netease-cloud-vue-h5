@@ -56,7 +56,6 @@ export default {
   /**
    *  获取全部视频列表   （ 可以直接播放的视频列表 ）  XXX
    *  直接使用 vid 找到视频
-   *
    *  说明 : 调用此接口,可获取视频分类列表,分页参数只能传入offset
    *  可选参数 : offset: 默认0
    *  接口地址 : /video/timeline/all

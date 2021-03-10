@@ -63,7 +63,7 @@ export default {
         query: {
           nickname: item.nickname,
           id: item.userId,
-          type: 0,
+          type: '0',
           backgroundUrl: item.backgroundUrl,
           avatarUrl: item.avatarUrl
         }

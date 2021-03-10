@@ -28,7 +28,11 @@ const ItemOption = {
     if (obj.expires) {
       // 以obj.name为key，obj为值放进去
       // console.log(obj.expires)
-      window.localStorage.setItem(obj.name, JSON.stringify(obj))
+      try {
+        window.localStorage.setItem(obj.name, JSON.stringify(obj))
+      } catch (e) {
+
+      }
     } else {
       // 如果obj.expires没有设置，就判断一下value的类型 默认30分钟过期
       const type = Object.prototype.toString.call(obj.value)

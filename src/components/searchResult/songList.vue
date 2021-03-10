@@ -2,12 +2,15 @@
   <div>
     <div class="singerPage" v-if="songlist.playlists ||songlist.playLists">
       <ul>
-        <li v-for="(item,index) in songlist.playlists || songlist.playLists" :key="index">
+        <li v-for="(item,index) in songlist.playlists || songlist.playLists"
+            @click="clickSongList(item)"
+            :key="index">
           <div class="left">
             <img :src="item.coverImgUrl" alt="">
             <span>{{ item.name }}</span>
           </div>
           <van-button
+            @click="clickSongList(item)"
             size="mini"
             color="mediumseagreen"
             type="primary">
@@ -35,7 +38,33 @@ export default {
   },
   mounted () {
   },
-  methods: {},
+  methods: {
+    clickSongList (item) {
+      console.log(item)
+      this.$router.push({
+        name: 'songListInfo',
+        params: {
+          data: item
+        },
+        query: {
+          type: '1',
+          typeInfo: '歌单',
+          // 专辑名称
+          songListName: item.name,
+          // 专辑id
+          songListID: item.id,
+          // 专辑背景
+          songListBackgroundUrl: item.coverImgUrl,
+          // 作者名称
+          singerName: item.creator.nickname,
+          // 作者id
+          singerID: item.creator.id,
+          // 作者img
+          singerImage: item.creator.img1v1Url
+        }
+      })
+    }
+  },
   props: ['songlist'],
   watch: {}
 }

@@ -20,7 +20,7 @@
               <span v-if="item.album">
                   {{ item.album.name }}
               </span>
-               <span v-if="item.album &&item.artists">/</span>
+               <span v-if="item.album && item.artists">/</span>
                 <span v-if="item.artists">
                 {{ item.artists[0].name }}
               </span>

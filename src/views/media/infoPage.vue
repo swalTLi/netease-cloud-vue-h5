@@ -19,7 +19,7 @@
           <div class="nothing"></div>
         </div>
         <div class="tabs" v-if="songs">
-          <van-tabs v-model="active" swipeable>
+          <van-tabs v-model="active" swipeable v-if="Number(this.$route.query.type)">
             <van-tab v-for="(item,index) in singerTabs" :title="item.title" :key="index">
               <div class="content">
                 <!--                {{ item.title }}-->
@@ -33,7 +33,8 @@
                   <Video v-if="videos" :videos="videos"/>
                 </div>
               </div>
-              <div class="nothing"></div>
+              <div class="nothing">
+              </div>
             </van-tab>
           </van-tabs>
         </div>
@@ -101,7 +102,7 @@ export default {
     console.log(this.time)
     console.log(this.$route.query)
     // console.log(this.$route.params.data)
-    this.$route.query.type === 0
+    this.$route.query.type === '0'
       ? this.userStart(this.$route.query.nickname, this.$route.query.id)
       : this.singerStart(this.$route.query.nickname, this.$route.query.id)
     this.time = new Date().getTime()
@@ -244,7 +245,7 @@ export default {
   background: #d5d5d5;
   overflow: hidden;
   overflow-y: auto;
-display: flex;
+  display: flex;
   justify-content: center;
   .backgroundUrl {
     width: 100vw;
