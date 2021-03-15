@@ -113,5 +113,42 @@ export default {
       // + '&cookie=' + window.localStorage.getItem('cookie'),
       withCredentials: true
     })
+  },
+  /**
+   **  获取歌词
+   **  说明 : 调用此接口 , 传入音乐 id 可获得对应音乐的歌词 ( 不需要登录 )
+   **  必选参数 : id: 音乐 id
+   **  接口地址 : /lyric
+   **  调用例子 : /lyric?id=33894312
+   **  返回数据如下图 : 获取歌词
+   */
+  getLyirs: (id) => {
+    // eslint-disable-next-line no-undef
+    return axios({
+      method: 'get',
+      url: '/lyric?id=' + id,
+      // + '&cookie=' + window.localStorage.getItem('cookie'),
+      withCredentials: true
+    })
+  },
+  /**
+   * ### 获取相似音乐
+
+   说明 : 调用此接口 , 传入歌曲 id, 可获得相似歌曲
+
+   **必选参数 :** `id`: 歌曲 id
+
+   **接口地址 :** `/simi/song`
+
+   **调用例子 :** `/simi/song?id=347230` ( 对应 ' 光辉岁月 ' 相似歌曲 )
+   */
+  getLikeSong: (id) => {
+    // eslint-disable-next-line no-undef
+    return axios({
+      method: 'get',
+      url: '/simi/song?id=' + id,
+      // + '&cookie=' + window.localStorage.getItem('cookie'),
+      withCredentials: true
+    })
   }
 }

@@ -29,7 +29,9 @@ export const loginVuex = {
   actions: {
     // 登陆成功
     loginSuccess: (context, data) => {
-      context.commit('loginSuccess', { UserInformation: data.res })
+      context.commit('loginSuccess', {
+        UserInformation: data.res
+      })
     },
     // 退出登录
     loginOut: (context, data) => {

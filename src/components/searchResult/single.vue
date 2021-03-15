@@ -51,8 +51,29 @@ export default {
   },
   methods: {
     gotoMusicPlayPage (item) {
-      console.log(item.name)
-      console.log(item)
+      // console.log(item)
+      this.$router.push({
+        name: 'MusicPlaying',
+        params: {
+          data: item
+        },
+        query: {
+          type: '1',
+          typeInfo: '单曲',
+          // 歌曲名称
+          singleName: item.name,
+          // 歌曲id
+          singleID: item.id,
+          // 歌曲img
+          singleImg: false,
+          // 歌曲背景
+          singleBackground: item.al.picUrl,
+          // 作者名称
+          AuthorName: item.ar[0].name,
+          // 作者id
+          AuthorID: item.ar[0].id
+        }
+      })
     }
   },
   props: ['singles'],

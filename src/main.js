@@ -6,10 +6,13 @@ import store from './store'
 import Vant, { Lazyload } from 'vant'
 import 'vant/lib/index.css'
 import './plugins/axios'
+import VueAudio from 'vue-audio-better'
 // import axios from 'axios'
 // axios
 // Vue.prototype.axios = axios
 import VueCookie from 'vue-cookie'
+
+Vue.use(VueAudio)
 Vue.use(Lazyload, {
   lazyComponent: true
 })

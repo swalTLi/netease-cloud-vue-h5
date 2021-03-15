@@ -85,6 +85,7 @@ export default {
     })
   },
   mounted () {
+    // this.$store.dispath()
     console.log(this.$store.state.loginVuex.isLogin)
     if (this.$store.state.loginVuex.isLogin) {
       this.loading()

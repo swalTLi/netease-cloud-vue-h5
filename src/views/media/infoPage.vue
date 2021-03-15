@@ -217,7 +217,6 @@ export default {
         // }
         this.$forceUpdate()
       }
-
       this.videos = {
         videos: localStorage('getItem', name + 'videos')
       }

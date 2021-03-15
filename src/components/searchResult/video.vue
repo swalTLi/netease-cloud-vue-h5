@@ -1,9 +1,10 @@
 <template>
   <div>
-    <!--    点击跳转抖音内容-->
+    <!--    点击跳转内容-->
     <div class="mains" v-if="videos.videos">
       <div class="box"
            v-for="(item,index) in videos.videos"
+           @click="gotoInfiniteVideo(item)"
            :key="index">
         <img :src="item.coverUrl || item.imgurl16v9" alt="">
         <div class="info">
@@ -47,7 +48,31 @@ export default {
     } catch (e) {
     }
   },
-  methods: {},
+  methods: {
+    gotoInfiniteVideo (item) {
+      console.log(item)
+      this.$router.push({
+        name: 'infiniteVideo',
+        params: {
+          data: item
+        },
+        query: {
+          type: '1',
+          typeInfo: '视频',
+          // 视频名称
+          singleTitle: item.title,
+          // 视频vid
+          singleVID: item.vid,
+          // 视频coverUrl
+          singleCoverUrl: item.coverUrl,
+          // 作者名称
+          AuthorName: item.creator[0].userName,
+          // 作者id
+          AuthorID: item.creator[0].userId
+        }
+      })
+    }
+  },
   props: ['videos'],
   watch: {}
 }

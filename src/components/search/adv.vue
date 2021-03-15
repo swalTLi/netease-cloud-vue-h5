@@ -16,8 +16,11 @@ export default {
   },
   props: ['bannerData'],
   mounted () {
-    this.showImg = this.bannerData[0]
-    this.changeAdvertisement()
+    try {
+      this.showImg = this.bannerData[0]
+      this.changeAdvertisement()
+    } catch (e) {
+    }
   },
   methods: {
     changeAdvertisement () {
@@ -48,6 +51,7 @@ export default {
     height: 100%;
     object-fit: cover;
     border-radius: 1.5vw;
+    box-shadow: 1px 1px 3px whitesmoke;
   }
 }
 </style>

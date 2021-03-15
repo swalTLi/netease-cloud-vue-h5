@@ -3,7 +3,7 @@ import Vuex from 'vuex'
 // login有关的数据
 // eslint-disable-next-line no-unused-vars
 import { loginVuex } from '@/store/modules/login'
-import { play as playVideo } from '@/store/modules/play'
+import { play as playVuex } from '@/store/modules/play'
 // vuex 持久化插件
 import createPersistedState from 'vuex-persistedstate'
 Vue.use(Vuex)
@@ -11,7 +11,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   modules: {
     loginVuex,
-    playVideo
+    playVuex
   },
   plugins: [
     createPersistedState({
@@ -19,7 +19,7 @@ export default new Vuex.Store({
       reducer (val) {
         return {
           loginVuex: val.loginVuex,
-          play: val.playVideo
+          play: val.playVuex
         }
       }
     })
