@@ -24,7 +24,7 @@
       </transition>
       <transition name="fade">
         <div class="main-box">
-          <div class="for" v-for="(box,index) in data.creatives" :key="index">
+          <div class="for" v-for="(box,index) in data.creatives" :key="index" @click="goLink(box)">
             <font size="1" class="play-number" v-if="box.resources">
               {{
                 box.resources[0].resourceExtInfo.playCount > 10000 ?
@@ -75,7 +75,33 @@ export default {
   mounted () {
     // console.log(this.data.blockCode, this.data)
   },
-  methods: {},
+  methods: {
+    goLink (item) {
+      // console.log(item)
+      this.$router.push({
+        name: 'songListInfo',
+        params: {
+          data: item
+        },
+        query: {
+          type: '1',
+          typeInfo: '歌单',
+          // 专辑名称
+          songListName: item.uiElement.mainTitle,
+          // 专辑id
+          songListID: item.creativeId,
+          // 专辑背景
+          songListBackgroundUrl: item.resources[0].uiElement.image.imageUrl
+          // 作者名称
+          // singerName: item.creator.nickname
+          // 作者id
+          // singerID: item.creator.id,
+          // 作者img
+          // singerImage: item.creator.img1v1Url
+        }
+      })
+    }
+  },
   props: ['data']
 }
 </script>

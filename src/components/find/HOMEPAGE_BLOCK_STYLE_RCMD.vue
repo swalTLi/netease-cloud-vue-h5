@@ -25,8 +25,8 @@
           </div>
         </div>
         <div class="main-box">
-          <div class="for" v-for="(box,box_index) in data.creatives" :key="box_index">
-            <div class="for-for" v-for="(box2 , box2_index) in box.resources" :key="box2_index">
+          <div class="for" v-for="(box,box_index) in data.creatives" :key="box_index" >
+            <div class="for-for" v-for="(box2 , box2_index) in box.resources" :key="box2_index" @click="goLink(box2)">
               <div class="img">
 <!--                <van-icon name="play-circle"/>-->
                 <svg class="icon" aria-hidden="true" >
@@ -68,7 +68,33 @@ export default {
   mounted () {
     // console.log(this.data.blockCode, this.data)
   },
-  methods: {},
+  methods: {
+    goLink (item) {
+      console.log(item)
+      this.$router.push({
+        name: 'MusicPlaying',
+        params: {
+          data: item
+        },
+        query: {
+          type: '1',
+          typeInfo: '单曲',
+          // 歌曲名称
+          singleName: item.resourceExtInfo.songData.name,
+          // 歌曲id
+          singleID: item.resourceExtInfo.songData.id,
+          // 歌曲img
+          singleImg: item.resourceExtInfo.songData.album.picUrl,
+          // 歌曲背景
+          singleBackground: item.uiElement.image.imageUrl,
+          // 作者名称
+          AuthorName: item.resourceExtInfo.artists[0].name,
+          // 作者id
+          AuthorID: item.resourceExtInfo.artists[0].id
+        }
+      })
+    }
+  },
   props: ['data']
 }
 </script>

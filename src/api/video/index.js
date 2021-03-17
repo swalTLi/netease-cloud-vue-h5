@@ -81,7 +81,7 @@ export default {
     // eslint-disable-next-line no-undef
     return axios({
       method: 'get',
-      url: '/video/timeline/recommend',
+      url: '/video/timeline/recommend?offset=' + offset + '&cookie=' + window.localStorage.getItem('cookie'),
       withCredentials: true
     })
   },

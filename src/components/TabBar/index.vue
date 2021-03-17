@@ -24,14 +24,14 @@
         </transition>
       </template>
     </van-tabbar-item>
-    <van-tabbar-item replace :to="path+'/mine'">
-      <span>我的</span>
-      <template #icon="props">
-        <transition name="fade">
-          <img :src="!props.active ? mine.active : mine.inactive" alt=""/>
-        </transition>
-      </template>
-    </van-tabbar-item>
+<!--    <van-tabbar-item replace :to="path+'/mine'">-->
+<!--      <span>我的</span>-->
+<!--      <template #icon="props">-->
+<!--        <transition name="fade">-->
+<!--          <img :src="!props.active ? mine.active : mine.inactive" alt=""/>-->
+<!--        </transition>-->
+<!--      </template>-->
+<!--    </van-tabbar-item>-->
   </van-tabbar>
 </template>
 

@@ -9,8 +9,9 @@
                 v-for="(item, index) in banners"
                 :key="index"
                 :show-indicators="false"
+                @click="goLink(item.data)"
               >
-                <img alt="" class="img" v-lazy="item.imageUrl" :src="item.imageUrl"/>
+                <img alt="" class="img" v-lazy="item.data.coverUrl" :src="item.data.coverUrl"/>
               </van-swipe-item>
             </van-swipe>
           </transition>
@@ -105,13 +106,37 @@ export default {
     this.findHomePageIcon()
   },
   methods: {
+    goLink (item) {
+      console.log(item)
+      this.$router.push({
+        name: 'infiniteVideo',
+        params: {
+          data: item
+        },
+        query: {
+          type: '1',
+          typeInfo: '视频',
+          // 视频名称
+          singleTitle: item.title,
+          // 视频vid
+          singleVID: item.vid,
+          // 视频coverUrl
+          singleCoverUrl: item.coverUrl,
+          // 作者名称
+          AuthorName: item.creator.nickname,
+          // 作者id
+          AuthorID: item.creator.userId
+        }
+      })
+    },
     // 详细的 banner 图数据
     findBanners () {
       // 优先加载缓存
       if (!localStorage('getItem', 'banner')) {
-        API.find.findBanners().then((res) => {
-          this.banners = res.data.banners
-          localStorage('setItem', 'banner', res.data.banners, 10000 * 60 * 10)
+        API.video.get_recommend_video().then((res) => {
+          console.log(res.data.datas)
+          this.banners = res.data.datas
+          localStorage('setItem', 'banner', res.data.datas, 10000 * 60 * 10)
         })
       } else {
         this.banners = localStorage('getItem', 'banner')
@@ -216,6 +241,7 @@ export default {
           width: 94%;
           height: 100%;
           border-radius: 10px;
+          object-fit: cover;
         }
 
         /deep/ .van-swipe__indicators {

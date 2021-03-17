@@ -22,7 +22,7 @@
       </div>
       <div class="main-box">
         <div class="text">
-          <div class="fors" v-for="(item,index) in data.creatives" :key="index" v-show=" item.resources">
+          <div class="fors" v-for="(item,index) in data.creatives" :key="index" v-show=" item.resources" @click="goLink(item)">
             <div class="left">
               <div class="top">
                 <span class="day">
@@ -67,7 +67,34 @@ export default {
   mounted () {
     console.log(this.data.blockCode, this.data)
   },
-  methods: {},
+  methods: {
+    goLink (item) {
+      // console.log(item)
+      // console.log(item.resources[0].resourceUrl.split('/').pop())
+      this.$router.push({
+        name: 'AlbumInfo',
+        params: {
+          data: item
+        },
+        query: {
+          type: '0',
+          typeInfo: '专辑',
+          // 专辑名称
+          albumName: item.resources[0].uiElement.mainTitle.title,
+          // 专辑id
+          albumID: item.resources[0].resourceUrl.split('/').pop(),
+          // 专辑背景
+          albumBackgroundUrl: item.resources[0].uiElement.image.imageUrl
+          // 作者名称
+          // singerName: item.artists[0].name,
+          // 作者id
+          // singerID: item.artists[0].id,
+          // 作者img
+          // singerImage: item.artists[0].img1v1Url
+        }
+      })
+    }
+  },
   props: ['data']
 }
 </script>

@@ -25,7 +25,7 @@
       <transition name="fade">
         <div class="main-box">
           <van-swipe class="my-swipe" :width="160" :show-indicators="false" :loop="false">
-            <van-swipe-item class="for" v-for="(box,index) in data.extInfo" :key="index" v-show="box.resource.mlogExtVO.song" >
+            <van-swipe-item class="for" v-for="(box,index) in data.extInfo" :key="index" v-show="box.resource.mlogExtVO.song" @click="goLink(box)">
               <font size="1" class="play-number" v-if="box.resource.mlogExtVO.playCount">
                 {{
                   box.resource.mlogExtVO.playCount > 10000 ?
@@ -68,7 +68,34 @@ export default {
   mounted () {
     // console.log(this.data.blockCode, this.data)
   },
-  methods: {},
+  methods: {
+    goLink (item) {
+      console.log(item)
+      // console.log(item.resources[0].resourceUrl.split('/').pop())
+      this.$router.push({
+        name: 'MusicPlaying',
+        params: {
+          data: item
+        },
+        query: {
+          type: '1',
+          typeInfo: '单曲',
+          // 歌曲名称
+          singleName: item.resource.mlogExtVO.song.name,
+          // 歌曲id
+          singleID: item.resource.mlogExtVO.song.id,
+          // 歌曲img
+          singleImg: false,
+          // 歌曲背景
+          singleBackground: item.resource.mlogBaseData.coverUrl,
+          // 作者名称
+          AuthorName: item.resource.mlogExtVO.song.artists[0].artistName,
+          // 作者id
+          AuthorID: item.resource.mlogExtVO.song.artists[0].artistId
+        }
+      })
+    }
+  },
   props: ['data']
 }
 </script>
